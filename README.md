@@ -1,4 +1,4 @@
-# NesEmulator
+# TetrisSFML
 
 <p align="center">
       <img src="https://user-images.githubusercontent.com/59691442/183268126-b3d19e66-8f2d-463a-805e-ae6ef7cc6c01.png" alt="cmakeLogo" style="height:60px;"/>
@@ -39,7 +39,7 @@ system, please follow one of the section below `Windows` or `Linux` or `MacOs`.
 
 ### Windows
 
-<a href="https://github.com/Im-Rises/NesEmulator/releases/latest"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="cmakeLogo" style="height:40px;"/></a>
+<a href="https://github.com/Im-Rises/TetrisSFML/releases/latest"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="cmakeLogo" style="height:40px;"/></a>
 
 For Windows users you don't need to install the libs, you just need to be carefully that you have the
 `*.dll` next to the `space_invaders_arcade_emulator.exe` or the emulator won't start.
@@ -48,12 +48,12 @@ Once everything is set up by you can start the emulator by double-clicking the e
 command next to it:
 
 ```bash
-.\NesEmulator.exe
+.\TetrisSFML.exe
 ```
 
 ### Linux
 
-<a href="https://github.com/Im-Rises/NesEmulator/releases/latest"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="cmakeLogo" style="height:40px;"/></a>
+<a href="https://github.com/Im-Rises/TetrisSFML/releases/latest"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="cmakeLogo" style="height:40px;"/></a>
 
 For Linux users, you need to install the SDL2 lib, to do so type one of the following commands:
 
@@ -70,12 +70,12 @@ sudo apt-get install libsfml-dev
 Then you can start by double-clicking the executable of typing the following command next to it:
 
 ```bash
-./NesEmulator
+./TetrisSFML
 ```
 
 ### MacOs
 
-<a href="https://github.com/Im-Rises/NesEmulator/releases/latest"><img src="https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white" alt="cmakeLogo" style="height:40px;"/></a>
+<a href="https://github.com/Im-Rises/TetrisSFML/releases/latest"><img src="https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white" alt="cmakeLogo" style="height:40px;"/></a>
 
 For macOS users you will need to install Brew, please follow the instruction in the link below:  
 <https://brew.sh>
@@ -89,7 +89,7 @@ brew install sfml
 Then you can start by double-clicking the executable of typing the following command next to it:
 
 ```bash
-./NesEmulator
+./TetrisSFML
 ```
 
 ## Game controls
@@ -219,11 +219,11 @@ ctest
 
 ## Github-Actions
 
-[![flawfinder](https://github.com/Im-Rises/NesEmulator/actions/workflows/flawfinder.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NesEmulator/actions/workflows/flawfinder.yml)
-[![CMake](https://github.com/Im-Rises/NesEmulator/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NesEmulator/actions/workflows/cmake.yml)
-[![CodeQL](https://github.com/Im-Rises/NesEmulator/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NesEmulator/actions/workflows/codeql.yml)
-[![Microsoft C++ Code Analysis](https://github.com/Im-Rises/NesEmulator/actions/workflows/msvc.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NesEmulator/actions/workflows/msvc.yml)
-[![Cpp Cmake Publish](https://github.com/Im-Rises/NesEmulator/actions/workflows/cpp-cmake-publish.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NesEmulator/actions/workflows/cpp-cmake-publish.yml)
+[![flawfinder](https://github.com/Im-Rises/TetrisSFML/actions/workflows/flawfinder.yml/badge.svg?branch=main)](https://github.com/Im-Rises/TetrisSFML/actions/workflows/flawfinder.yml)
+[![CMake](https://github.com/Im-Rises/TetrisSFML/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/Im-Rises/TetrisSFML/actions/workflows/cmake.yml)
+[![CodeQL](https://github.com/Im-Rises/TetrisSFML/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Im-Rises/TetrisSFML/actions/workflows/codeql.yml)
+[![Microsoft C++ Code Analysis](https://github.com/Im-Rises/TetrisSFML/actions/workflows/msvc.yml/badge.svg?branch=main)](https://github.com/Im-Rises/TetrisSFML/actions/workflows/msvc.yml)
+[![Cpp Cmake Publish](https://github.com/Im-Rises/TetrisSFML/actions/workflows/cpp-cmake-publish.yml/badge.svg?branch=main)](https://github.com/Im-Rises/TetrisSFML/actions/workflows/cpp-cmake-publish.yml)
 
 The project is set with a set of different scripts:
 
