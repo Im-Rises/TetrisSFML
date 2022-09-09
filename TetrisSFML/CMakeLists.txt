@@ -1,9 +1,21 @@
-﻿# CMakeList.txt : CMake project for TetrisSFML, include source and define
-# project specific logic here.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
 
-# Add source to this project's executable.
-add_executable (TetrisSFML "TetrisSFML.cpp" "TetrisSFML.h")
+set(SRCS "main.cpp")
+set(HEADERS )
 
-# TODO: Add tests and install targets if needed.
+include_directories("${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/include")
+
+set(SFML_COMPONENTS audio network graphics window system)
+set(SFML_LINKED_LIBRARIES sfml-audio sfml-network sfml-graphics sfml-window sfml-system)
+
+if(WIN32)
+    set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/lib/cmake")
+    set(SFML_DIR "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/lib/cmake/SFML")
+    find_package(SFML REQUIRED COMPONENTS ${SFML_COMPONENTS})
+elseif(UNIX)
+    find_package(SFML 2.5 REQUIRED COMPONENTS ${SFML_COMPONENTS})
+endif()
+
+add_executable (${PROJECT_NAME} ${SRCS} ${HEADERS})
+
+target_link_libraries(${PROJECT_NAME} ${SFML_LINKED_LIBRARIES})
