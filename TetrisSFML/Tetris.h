@@ -7,7 +7,7 @@
 #define PROJECT_NAME "Tetris"
 #define BACKGROUND_COLOR sf::Color(0, 100, 100)
 
-#define INIT_LEVEL 1
+#define INIT_LEVEL 10
 #define MAX_LEVEL 20
 #define INIT_TIME_FALL 120 // Intial time at level 1 for a tetromino to fall in seconds
 
@@ -21,7 +21,7 @@ const unsigned short FRAME_DURATION = 16;
 
 class Tetris {
 private:
-    int niveau;
+    int difficultyLevel;
     sf::RenderWindow window;
     sf::RectangleShape cell;
     sf::Event event;
@@ -41,14 +41,8 @@ public:
 
     void handleEvents();
 
-    void updateGame();
+    int updateGame(const int &cycleCounter);
 
-//private:
-//    void updateBackground();
-//
-//    void updateFallingTetromino();
-
-public:
     void refreshScreen();
 };
 

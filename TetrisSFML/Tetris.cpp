@@ -12,7 +12,7 @@ Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE,
                                         CELL_SIZE * ROWS * SCREEN_SIZE), PROJECT_NAME),
                    cell(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2)) {
     window.setView(sf::View(sf::FloatRect(0, 0, CELL_SIZE * COLUMNS, CELL_SIZE * ROWS)));
-    niveau = INIT_LEVEL;
+    difficultyLevel = INIT_LEVEL;
 }
 
 void Tetris::start() {
@@ -23,21 +23,20 @@ void Tetris::start() {
 
         handleEvents();//Update inputs
 
-        if ((INIT_TIME_FALL / niveau) <= cycleCounter) {
-            updateGame();//Update falling tetromino
-            cycleCounter = 0;
-        }
-        refreshScreen();//Update screen
-        cycleCounter++;
+        cycleCounter = updateGame(cycleCounter);//Update falling tetromino
 
+        refreshScreen();//Update screen
+
+        // Limit the framerate to 60 frames per second
+        cycleCounter++;
         auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - previousTime).count();
         while (deltaTime < FRAME_DURATION) {
             deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                     std::chrono::steady_clock::now() - previousTime).count();
+            // Waiting while we reach 16ms
         }
         previousTime = std::chrono::steady_clock::now();
-        //////////
     }
 }
 
@@ -57,7 +56,7 @@ void Tetris::handleEvents() {
                         fallingTetromino.rotate();
                         break;
                     case sf::Keyboard::Down:
-                        fallingTetromino.hardMoveDown(ROWS);
+//                        fallingTetromino.hardMoveDown(ROWS);
                         break;
                     case sf::Keyboard::Left:
                         fallingTetromino.moveLeft(COLUMNS);
@@ -77,24 +76,28 @@ void Tetris::handleEvents() {
     }
 }
 
-void Tetris::updateGame() {
-    bool moveDown = true;
-    for (auto &tile: fallingTetromino.getTiles()) {
-        auto x = (int) tile.x;
-        auto y = (int) tile.y;
-        if (y == (ROWS - 1) || matrix[x][y + 1].state) {
-            moveDown = false;
-            break;
-        }
-    }
-    if (moveDown) {
-        fallingTetromino.moveDown(ROWS);
-    } else {
+int Tetris::updateGame(const int &cycleCounter) {
+    if ((INIT_TIME_FALL / difficultyLevel) <= cycleCounter) {
+        bool moveDown = true;
         for (auto &tile: fallingTetromino.getTiles()) {
-            matrix[(int) tile.x][(int) tile.y] = {true, fallingTetromino.getColor()};
+            auto x = (int) tile.x;
+            auto y = (int) tile.y;
+            if (y == (ROWS - 1) || matrix[x][y + 1].state) {
+                moveDown = false;
+                break;
+            }
         }
-        fallingTetromino.reset();
+        if (moveDown) {
+            fallingTetromino.moveDown(ROWS);
+        } else {
+            for (auto &tile: fallingTetromino.getTiles()) {
+                matrix[(int) tile.x][(int) tile.y] = {true, fallingTetromino.getColor()};
+            }
+            fallingTetromino.reset();
+        }
+        return 0;
     }
+    return cycleCounter;
 }
 
 void Tetris::refreshScreen() {
