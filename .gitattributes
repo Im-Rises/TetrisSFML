@@ -1,0 +1,4 @@
+* text=auto eol=lf
+TetrisSFML/lib/** linguist-vendored
+TetrisSFML/bin/** linguist-vendored
+TetrisSFML/include/** linguist-vendored
