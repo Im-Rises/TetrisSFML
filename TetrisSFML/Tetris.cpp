@@ -23,7 +23,7 @@ void Tetris::start() {
 
         handleEvents();//Update inputs
 
-        if ((120 / niveau) <= cycleCounter) {
+        if ((INIT_TIME_FALL / niveau) <= cycleCounter) {
             updateGame();//Update falling tetromino
             cycleCounter = 0;
         }

@@ -9,6 +9,7 @@
 
 #define INIT_LEVEL 1
 #define MAX_LEVEL 20
+#define INIT_TIME_FALL 120 // Intial time at level 1 for a tetromino to fall in seconds
 
 const unsigned char CELL_SIZE = 8;
 const unsigned char COLUMNS = 10;
