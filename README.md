@@ -135,6 +135,7 @@ project-revision
 ## Compilation
 
 To compile the emulator, the first thing you need to do is installing a C++ compiler:
+
 - Visual Studio (MSVC)
 - Mingw
 - ...
@@ -142,8 +143,8 @@ To compile the emulator, the first thing you need to do is installing a C++ comp
 You also need to install Cmake:  
 <https://cmake.org>
 
-Once your environment is set up, you can download the project. If you have the Visual Studio compiler then you 
-can directly go to the operating system step compilation in the other case follow, the SFML installation in 
+Once your environment is set up, you can download the project. If you have the Visual Studio compiler then you
+can directly go to the operating system step compilation in the other case follow, the SFML installation in
 the `SFML` section below.
 
 ### SFML
@@ -226,6 +227,7 @@ ctest
 [![CodeQL](https://github.com/Im-Rises/TetrisSFML/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Im-Rises/TetrisSFML/actions/workflows/codeql.yml)
 [![Microsoft C++ Code Analysis](https://github.com/Im-Rises/TetrisSFML/actions/workflows/msvc.yml/badge.svg?branch=main)](https://github.com/Im-Rises/TetrisSFML/actions/workflows/msvc.yml)
 [![Cpp Cmake Publish](https://github.com/Im-Rises/TetrisSFML/actions/workflows/cpp-cmake-publish.yml/badge.svg?branch=main)](https://github.com/Im-Rises/TetrisSFML/actions/workflows/cpp-cmake-publish.yml)
+[![cpp-linter](https://github.com/Im-Rises/TetrisSFML/actions/workflows/cpp-linter.yml/badge.svg?branch=main)](https://github.com/Im-Rises/TetrisSFML/actions/workflows/cpp-linter.yml)
 
 The project is set with a set of different scripts:
 
@@ -241,7 +243,7 @@ Main documentation:
 <>
 
 SFML:  
-<https://github.com/SFML/SFML>  
+<https://github.com/SFML/SFML>
 
 ## Contributors
 
