@@ -1,7 +1,6 @@
 #ifndef DEF_TETRIS
 #define DEF_TETRIS
 
-
 #define PROJECT_NAME "Tetris"
 
 const unsigned char CELL_SIZE = 8;
@@ -11,13 +10,15 @@ const unsigned char SCREEN_SIZE = 4;
 
 const unsigned short FRAME_DURATION = 16;
 
+const unsigned char rgbBgColor[3] = {0, 100, 100};
+
 class Tetris {
 private:
 public:
-	Tetris();
-	//	~Tetris();
+    Tetris();
+    //	~Tetris();
 
-	void start();
+    void start();
 };
 
 #endif // DEF_TETRIS

@@ -1,17 +1,24 @@
 repo:
-- '*'
+  - '*'
 
 CMakeLists:
-- 'TetrisSFML/CMakeLists.txt'
-
-source:
-- 'TetrisSFML'
-
-main:
-- 'TetrisSFML/main.*'
+  - 'TetrisSFML/CMakeLists.txt'
 
 readme:
-- 'README.md'
+  - 'README.md'
 
 github-actions:
-- '.github/**/*.yml'
+  - '.github/**/*.yml'
+
+src:
+  - 'TetrisSFML'
+
+main:
+  - 'TetrisSFML/main.*'
+
+tetrominos:
+  - 'TetrisSFML/Tetrominos/**'
+  - 'TetrisSFML/Tetrominos.*'
+
+SFML:
+  - 'TetrisSFML/include/SFML/**'
