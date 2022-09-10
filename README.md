@@ -10,7 +10,7 @@
 
 Tetris game written in C++ using SFML 2.5.1 lib available for windows, linux and macOS.
 
-The project is compiled using CMake and MinGw compiler version (w64 9.0).
+The project is compiled using CMake and VisualStudio compiler version.
 
 ## Features
 

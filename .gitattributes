@@ -1,3 +1,4 @@
 * text=auto eol=lf
-NesEmulator/include/** linguist-vendored
-NesEmulator/lib/** linguist-vendored
+TetrisSFML/lib/** linguist-vendored
+TetrisSFML/bin/** linguist-vendored
+TetrisSFML/include/** linguist-vendored
