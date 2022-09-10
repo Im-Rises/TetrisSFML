@@ -21,7 +21,7 @@ jobs:
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       - name: Copy exe to root
-        run: cp ./build/TetrisSFML.exe .
+        run: cp ./build/TetrisSFML/Release/TetrisSFML.exe .
       - name: Upload artifact release
         uses: actions/upload-artifact@v2
         with:
@@ -42,7 +42,7 @@ jobs:
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       - name: Copy exe to root
-        run: cp ./build/TetrisSFML .
+        run: cp ./build/TetrisSFML/Release/TetrisSFML .
       - name: Upload artifact release
         uses: actions/upload-artifact@v2
         with:
@@ -61,7 +61,7 @@ jobs:
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       - name: Copy exe to root
-        run: cp ./build/TetrisSFML .
+        run: cp ./build/TetrisSFML/Release/TetrisSFML
       - name: Upload artifact release
         uses: actions/upload-artifact@v2
         with:
