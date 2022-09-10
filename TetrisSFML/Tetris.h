@@ -7,6 +7,9 @@
 #define PROJECT_NAME "Tetris"
 #define BACKGROUND_COLOR sf::Color(0, 100, 100)
 
+#define INIT_LEVEL 1
+#define MAX_LEVEL 20
+
 const unsigned char CELL_SIZE = 8;
 const unsigned char COLUMNS = 10;
 const unsigned char ROWS = 20;
@@ -14,8 +17,10 @@ const unsigned char SCREEN_SIZE = 4;
 
 const unsigned short FRAME_DURATION = 16;
 
+
 class Tetris {
 private:
+    int niveau;
     sf::RenderWindow window;
     sf::RectangleShape cell;
     sf::Event event;
@@ -37,6 +42,12 @@ public:
 
     void updateGame();
 
+//private:
+//    void updateBackground();
+//
+//    void updateFallingTetromino();
+
+public:
     void refreshScreen();
 };
 

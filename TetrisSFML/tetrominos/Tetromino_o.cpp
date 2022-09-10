@@ -3,8 +3,10 @@
 #include <SFML/Graphics.hpp>
 
 Tetromino_o::Tetromino_o() {
+    reset();
+}
 
-
+void Tetromino_o::reset() {
     tiles = {
             sf::Vector2f(0, 0),
             sf::Vector2f(1, 0),
@@ -18,6 +20,7 @@ Tetromino_o::Tetromino_o() {
 
     color = sf::Color::Yellow;
 }
+
 
 void Tetromino_o::rotate() {
 }

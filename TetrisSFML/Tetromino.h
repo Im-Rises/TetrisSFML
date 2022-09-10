@@ -13,6 +13,8 @@ public:
 public:
     Tetromino();
 
+    virtual void reset() = 0;
+
     bool moveDown(const int &rows);
 
     virtual bool hardMoveDown(const int &rows);

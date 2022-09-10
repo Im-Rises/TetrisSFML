@@ -7,6 +7,8 @@ class Tetromino_o : public Tetromino {
 public:
     Tetromino_o();
 
+    void reset();
+
     void rotate() override;
 };
 
