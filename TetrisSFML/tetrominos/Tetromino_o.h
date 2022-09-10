@@ -5,11 +5,11 @@
 
 class Tetromino_o : public Tetromino {
 public:
-	Tetromino_o();
+    Tetromino_o();
 
-	void moveDown() override;
+    void reset();
 
-	void rotate() override;
+    void rotate() override;
 };
 
 #endif // TETROMINO_CUBE

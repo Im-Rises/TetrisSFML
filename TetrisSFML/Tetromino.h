@@ -6,16 +6,28 @@
 
 class Tetromino {
 
-protected:
-	std::vector<sf::Vector2f> tiles;
+public:
+    std::vector<sf::Vector2f> tiles;
+    sf::Color color;
 
 public:
-	Tetromino();
-	//	~Tetromino();
+    Tetromino();
 
-	virtual void moveDown() = 0;
+    virtual void reset() = 0;
 
-	virtual void rotate() = 0;
+    bool moveDown(const int &rows);
+
+    virtual bool hardMoveDown(const int &rows);
+
+    virtual bool moveLeft(const int &columns);
+
+    virtual bool moveRight(const int &columns);
+
+    virtual void rotate() = 0;
+
+    std::vector<sf::Vector2f> getTiles() const;
+
+    sf::Color getColor() const;
 };
 
 #endif // DEF_TETROMINO

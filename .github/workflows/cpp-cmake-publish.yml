@@ -7,6 +7,9 @@ on:
 permissions:
   contents: write
 
+env:
+  BUILD_TYPE: Release
+
 jobs:
   build-windows:
     name: Build windows
@@ -31,7 +34,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install libs
-        run: sudo apt-get install libsfml-dev
+        run: |
+          sudo apt-get install libsfml-dev
+          sudo apt install xorg-dev
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
       - name: Build
@@ -99,8 +104,6 @@ jobs:
         run: |
           rm TetrisSFML.exe
           rm release-windows.zip
-          rm SDL2.dll
-          rm SDL2_mixer.dll
       - name: Download ubuntu artifact content
         uses: actions/download-artifact@v2
         with:
