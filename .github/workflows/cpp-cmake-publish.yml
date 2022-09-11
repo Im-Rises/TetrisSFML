@@ -21,7 +21,11 @@ jobs:
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       - name: Copy exe to root
-        run: cp ./build/TetrisSFML/Release/TetrisSFML.exe .
+        run: |
+          cp ./build/TetrisSFML/Release/TetrisSFML.exe .
+          cp ./TetrisSFML/bin/sfml-system-2.dll .
+          cp ./TetrisSFML/bin/sfml-window-2.dll .
+          cp ./TetrisSFML/bin/sfml-graphics-2.dll .
       - name: Upload artifact release
         uses: actions/upload-artifact@v2
         with:
@@ -103,6 +107,9 @@ jobs:
       - name: Delete windows release files
         run: |
           rm TetrisSFML.exe
+          rm sfml-system-2.dll
+          rm sfml-window-2.dll
+          rm sfml-graphics-2.dll
           rm release-windows.zip
       - name: Download ubuntu artifact content
         uses: actions/download-artifact@v2

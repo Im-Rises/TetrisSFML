@@ -1,7 +1,7 @@
 ﻿cmake_minimum_required(VERSION 3.8)
 
-set(SRCS "main.cpp" "Tetris.cpp" "Tetromino.cpp" "tetrominos/Tetromino_i.cpp" "tetrominos/Tetromino_j.cpp" "tetrominos/Tetromino_l.cpp" "tetrominos/Tetromino_o.cpp" "tetrominos/Tetromino_s.cpp" "tetrominos/Tetromino_t.cpp" "tetrominos/Tetromino_z.cpp")
-set(HEADERS "Tetris.h" "Tetromino.h" "tetrominos/Tetromino_i.h" "tetrominos/Tetromino_j.h" "tetrominos/Tetromino_l.h" "tetrominos/Tetromino_o.h" "tetrominos/Tetromino_s.cpp" "tetrominos/Tetromino_t.h" "tetrominos/Tetromino_z.h")
+set(SRCS "main.cpp" "Tetris.cpp" "Tetromino.cpp")
+set(HEADERS "Tetris.h" "Tetromino.h" "global.h")
 
 include_directories("${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/include")
 
