@@ -25,7 +25,7 @@ jobs:
       - name: Upload artifact release
         uses: actions/upload-artifact@v2
         with:
-          name: artifact-ubuntu
+          name: artifact-windows
           path: |
             ./TetrisSFML.exe
   build-ubuntu:
@@ -65,7 +65,7 @@ jobs:
       - name: Upload artifact release
         uses: actions/upload-artifact@v2
         with:
-          name: artifact-ubuntu
+          name: artifact-macos
           path: |
             ./TetrisGame
   release-project:
