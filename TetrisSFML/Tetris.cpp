@@ -25,16 +25,7 @@ void Tetris::start() {
 
         refreshScreen();//Update screen
 
-        // Limit the framerate to 60 frames per second
-        cycleCounter++;
-        auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::steady_clock::now() - previousTime).count();
-        while (deltaTime < FRAME_DURATION) {
-            deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::steady_clock::now() - previousTime).count();
-            // Waiting while we reach 16ms
-        }
-        previousTime = std::chrono::steady_clock::now();
+        sleepTime(cycleCounter, previousTime);// Limit the framerate and handle cycleCounter
     }
 }
 
@@ -57,10 +48,10 @@ void Tetris::handleEvents() {
 //                        fallingTetromino.hardMoveDown(ROWS);
                         break;
                     case sf::Keyboard::Left:
-                        fallingTetromino.moveLeft(COLUMNS);
+//                        fallingTetromino.moveLeft(COLUMNS);
                         break;
                     case sf::Keyboard::Right:
-                        fallingTetromino.moveRight(COLUMNS);
+//                        fallingTetromino.moveRight(COLUMNS);
                         break;
                     default:
                         break;
@@ -74,7 +65,7 @@ void Tetris::handleEvents() {
     }
 }
 
-int Tetris::updateGame(const int &cycleCounter) {
+int Tetris::updateGame(int cycleCounter) {
     if ((INIT_TIME_FALL / difficultyLevel) <= cycleCounter) {
         bool moveDown = true;
         for (auto &tile: fallingTetromino.getTiles()) {
@@ -122,4 +113,16 @@ void Tetris::refreshScreen() {
     // Shadow tetromino display here
 
     window.display();
+}
+
+void Tetris::sleepTime(int &cycleCounter, std::chrono::steady_clock::time_point &previousTime) {
+    cycleCounter++;
+    auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - previousTime).count();
+    while (deltaTime < FRAME_DURATION) {
+        deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - previousTime).count();
+        // Waiting while we reach 16ms
+    }
+    previousTime = std::chrono::steady_clock::now();
 }

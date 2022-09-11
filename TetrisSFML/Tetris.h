@@ -2,6 +2,7 @@
 #define DEF_TETRIS
 
 #include <SFML/Graphics.hpp>
+#include <chrono>
 #include "Tetromino.h"
 
 #define PROJECT_NAME "Tetris"
@@ -42,9 +43,11 @@ public:
 
     void handleEvents();
 
-    int updateGame(const int &cycleCounter);
+    int updateGame(int cycleCounter);
 
     void refreshScreen();
+
+    void sleepTime(int &cyclesCounter, std::chrono::steady_clock::time_point &previousTime);
 };
 
 #endif // DEF_TETRIS

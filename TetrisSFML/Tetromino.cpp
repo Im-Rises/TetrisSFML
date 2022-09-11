@@ -8,6 +8,15 @@ Tetromino::Tetromino(const char &name) {
     data = tetrominosMap.at(name);
 }
 
+Tetromino Tetromino::getRandomTetromino() {
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(0, tetrominosMap.size() - 1);
+    auto it = tetrominosMap.begin();
+    std::advance(it, dist6(rng));
+    return {it->first};
+}
+
 void Tetromino::moveDown(const int &rows) {
     for (auto &tile: this->data.tiles) {
         tile.y++;
@@ -58,13 +67,4 @@ std::vector<sf::Vector2f> Tetromino::getTiles() const {
 
 sf::Color Tetromino::getColor() const {
     return data.color;
-}
-
-Tetromino Tetromino::getRandomTetromino() {
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist6(0, tetrominosMap.size() - 1);
-    auto it = tetrominosMap.begin();
-    std::advance(it, dist6(rng));
-    return {it->first};
 }

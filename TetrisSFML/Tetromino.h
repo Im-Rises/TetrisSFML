@@ -13,6 +13,9 @@ protected:
 public:
     Tetromino(const char &name);
 
+    static Tetromino getRandomTetromino();
+
+public:
     void moveDown(const int &rows);
 
     bool hardMoveDown(const int &rows);
@@ -23,11 +26,10 @@ public:
 
     void rotate();
 
+public:
     [[nodiscard]] std::vector<sf::Vector2f> getTiles() const;
 
     [[nodiscard]] sf::Color getColor() const;
-
-    static Tetromino getRandomTetromino();
 };
 
 #endif // DEF_TETROMINO
