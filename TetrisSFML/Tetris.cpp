@@ -82,7 +82,8 @@ int Tetris::updateGame(int cycleCounter) {
             for (auto &tile: fallingTetromino.getTiles()) {
                 matrix[(int) tile.x][(int) tile.y] = {true, fallingTetromino.getColor()};
             }
-            fallingTetromino = Tetromino::getRandomTetromino();
+            fallingTetromino = nextTetromino;
+            nextTetromino = Tetromino::getRandomTetromino();
         }
         return 0;
     }

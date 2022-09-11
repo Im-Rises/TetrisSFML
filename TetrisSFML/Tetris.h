@@ -28,7 +28,7 @@ private:
     sf::Event event;
 
     Tetromino fallingTetromino = Tetromino::getRandomTetromino();
-//    std::unique_ptr<Tetromino> nextTetromino = Tetromino::getRandomTetromino();
+    Tetromino nextTetromino = Tetromino::getRandomTetromino();
 
     struct {
         bool state = false;
