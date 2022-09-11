@@ -9,9 +9,6 @@ Tetromino::Tetromino(const char &name) {
 }
 
 void Tetromino::reset() {
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist6(0, 6);
 }
 
 void Tetromino::moveDown(const int &rows) {

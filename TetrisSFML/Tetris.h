@@ -5,7 +5,7 @@
 #include "Tetromino.h"
 
 #define PROJECT_NAME "Tetris"
-#define BACKGROUND_COLOR sf::Color(0, 100, 100)
+#define BACKGROUND_COLOR sf::Color(0, 50, 120)
 
 #define INIT_LEVEL 20
 #define MAX_LEVEL 20
