@@ -13,8 +13,6 @@ protected:
 public:
     Tetromino(const char &name);
 
-    virtual void reset();
-
     void moveDown(const int &rows);
 
     bool hardMoveDown(const int &rows);
