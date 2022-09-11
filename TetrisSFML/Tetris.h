@@ -2,12 +2,12 @@
 #define DEF_TETRIS
 
 #include <SFML/Graphics.hpp>
-#include "tetrominos/Tetromino_o.h"
+#include "Tetromino.h"
 
 #define PROJECT_NAME "Tetris"
 #define BACKGROUND_COLOR sf::Color(0, 100, 100)
 
-#define INIT_LEVEL 10
+#define INIT_LEVEL 20
 #define MAX_LEVEL 20
 #define INIT_TIME_FALL 120 // Intial time at level 1 for a tetromino to fall in seconds
 
@@ -26,7 +26,7 @@ private:
     sf::RectangleShape cell;
     sf::Event event;
 
-    Tetromino *fallingTetromino = Tetromino::getRandomTetromino();
+    Tetromino fallingTetromino = Tetromino::getRandomTetromino();
 //    std::unique_ptr<Tetromino> nextTetromino = Tetromino::getRandomTetromino();
 
     struct {

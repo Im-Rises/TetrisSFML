@@ -3,33 +3,33 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "tetrominsmap.h"
 
 class Tetromino {
 
 protected:
-    std::vector<sf::Vector2f> tiles;
-    sf::Color color;
+    TetrominoData data;
 
 public:
-    Tetromino();
+    Tetromino(const char &name);
 
-    virtual void reset() = 0;
+    virtual void reset();
 
-    static Tetromino *getRandomTetromino();
+    void moveDown(const int &rows);
 
-    bool moveDown(const int &rows);
+    bool hardMoveDown(const int &rows);
 
-    virtual bool hardMoveDown(const int &rows);
+    bool moveLeft(const int &columns);
 
-    virtual bool moveLeft(const int &columns);
+    bool moveRight(const int &columns);
 
-    virtual bool moveRight(const int &columns);
+    void rotate();
 
-    virtual void rotate() = 0;
+    [[nodiscard]] std::vector<sf::Vector2f> getTiles() const;
 
-    std::vector<sf::Vector2f> getTiles() const;
+    [[nodiscard]] sf::Color getColor() const;
 
-    sf::Color getColor() const;
+    static Tetromino getRandomTetromino();
 };
 
 #endif // DEF_TETROMINO
