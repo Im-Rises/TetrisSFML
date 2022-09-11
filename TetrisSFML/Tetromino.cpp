@@ -17,10 +17,16 @@ Tetromino Tetromino::getRandomTetromino() {
     return {it->first};
 }
 
-void Tetromino::moveDown(const int &rows) {
-    for (auto &tile: this->data.tiles) {
+bool Tetromino::moveDown(const std::vector<std::vector<TetrisTile>> &matrix) {
+    for (auto &tile: data.tiles) {
+        if (matrix[0].size() == (1 + tile.y) || matrix[tile.x][1 + tile.y].state) {
+            return false;
+        }
+    }
+    for (auto &tile: data.tiles) {
         tile.y++;
     }
+    return true;
 }
 
 bool Tetromino::hardMoveDown(const int &rows) {
@@ -29,32 +35,26 @@ bool Tetromino::hardMoveDown(const int &rows) {
 }
 
 
-bool Tetromino::moveLeft(const int &columns) {
+void Tetromino::moveLeft(const std::vector<std::vector<TetrisTile>> &matrix) {
     for (auto &tile: data.tiles) {
-        if (tile.x <= 0) {
-            return false;
+        if (0 == tile.x || matrix[tile.x - 1][tile.y].state) {
+            return;
         }
     }
-
     for (auto &tile: data.tiles) {
         tile.x--;
     }
-
-    return false;
 }
 
-bool Tetromino::moveRight(const int &columns) {
+void Tetromino::moveRight(const std::vector<std::vector<TetrisTile>> &matrix) {
     for (auto &tile: data.tiles) {
-        if (columns <= (1 + tile.x)) {
-            return false;
+        if (matrix.size() == (1 + tile.x) || matrix[1 + tile.x][tile.y].state) {
+            return;
         }
     }
-
     for (auto &tile: data.tiles) {
         tile.x++;
     }
-
-    return false;
 }
 
 void Tetromino::rotate() {

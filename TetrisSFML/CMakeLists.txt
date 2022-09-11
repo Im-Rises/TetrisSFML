@@ -1,7 +1,7 @@
 ﻿cmake_minimum_required(VERSION 3.8)
 
 set(SRCS "main.cpp" "Tetris.cpp" "Tetromino.cpp")
-set(HEADERS "Tetris.h" "Tetromino.h" "tetrominsmap.h")
+set(HEADERS "Tetris.h" "Tetromino.h" "tetrominsmap.h" global.h)
 
 include_directories("${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/include")
 

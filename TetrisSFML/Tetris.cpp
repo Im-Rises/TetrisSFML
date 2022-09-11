@@ -8,7 +8,8 @@
 
 Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE,
                                         CELL_SIZE * ROWS * SCREEN_SIZE), PROJECT_NAME),
-                   cell(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2)) {
+                   cell(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2)),
+                   matrix(COLUMNS, std::vector<TetrisTile>(ROWS)) {
     window.setView(sf::View(sf::FloatRect(0, 0, CELL_SIZE * COLUMNS, CELL_SIZE * ROWS)));
     difficultyLevel = INIT_LEVEL;
 }
@@ -48,10 +49,10 @@ void Tetris::handleEvents() {
 //                        fallingTetromino.hardMoveDown(ROWS);
                         break;
                     case sf::Keyboard::Left:
-//                        fallingTetromino.moveLeft(COLUMNS);
+                        fallingTetromino.moveLeft(matrix);
                         break;
                     case sf::Keyboard::Right:
-//                        fallingTetromino.moveRight(COLUMNS);
+                        fallingTetromino.moveRight(matrix);
                         break;
                     default:
                         break;
@@ -67,21 +68,15 @@ void Tetris::handleEvents() {
 
 int Tetris::updateGame(int cycleCounter) {
     if ((INIT_TIME_FALL / difficultyLevel) <= cycleCounter) {
-        bool moveDown = true;
-        for (auto &tile: fallingTetromino.getTiles()) {
-            auto x = (int) tile.x;
-            auto y = (int) tile.y;
-            if (y == (ROWS - 1) || matrix[x][y + 1].state) {
-                moveDown = false;
-                break;
-            }
-        }
-        if (moveDown) {
-            fallingTetromino.moveDown(ROWS);
-        } else {
+        if (!fallingTetromino.moveDown(matrix)) {
+            // Save position of tetromino
             for (auto &tile: fallingTetromino.getTiles()) {
-                matrix[(int) tile.x][(int) tile.y] = {true, fallingTetromino.getColor()};
+                auto tileX = static_cast<int>(tile.x);
+                auto tileY = static_cast<int>(tile.y);
+                matrix[tileX][tileY].state = true;
+                matrix[tileX][tileY].color = fallingTetromino.getColor();
             }
+            // Change tetromino
             fallingTetromino = nextTetromino;
             nextTetromino = Tetromino::getRandomTetromino();
         }
@@ -105,9 +100,9 @@ void Tetris::refreshScreen() {
     }
 
     // Falling tetromino display
+    cell.setFillColor(fallingTetromino.getColor());
     for (auto &tile: fallingTetromino.getTiles()) {
         cell.setPosition(CELL_SIZE * tile.x + 1, CELL_SIZE * tile.y + 1);
-        cell.setFillColor(fallingTetromino.getColor());
         window.draw(cell);
     }
 

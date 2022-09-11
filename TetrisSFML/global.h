@@ -1,12 +1,28 @@
-#ifndef DEF_TETROMINSMAP
-#define DEF_TETROMINSMAP
+#ifndef GLOBAL_H
+#define GLOBAL_H
 
-#include <map>
-#include <vector>
 #include <SFML/Graphics.hpp>
 
-// I thought it was funny ;)
+#define PROJECT_NAME "Tetris"
 
+#define BACKGROUND_COLOR sf::Color(0, 50, 120)
+
+#define INIT_LEVEL 20
+#define MAX_LEVEL 30
+#define INIT_TIME_FALL 120 // Intial time at level 1 for a tetromino to fall in seconds
+
+const unsigned char CELL_SIZE = 8;
+const unsigned char COLUMNS = 10;
+const unsigned char ROWS = 20;
+const unsigned char SCREEN_SIZE = 4;
+
+struct TetrisTile {
+    bool state = false;
+    sf::Color color = BACKGROUND_COLOR;
+};
+
+
+// I thought it was funny ;)
 struct TetrominoData {
     std::vector<sf::Vector2f> tiles;
     sf::Color color;
@@ -43,4 +59,4 @@ const std::map<char, TetrominoData> tetrominosMap = {
               }}
 };
 
-#endif //DEF_TETROMINSMAP
+#endif //GLOBAL_H

@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "tetrominsmap.h"
+#include "global.h"
 
 class Tetromino {
 
@@ -16,13 +16,13 @@ public:
     static Tetromino getRandomTetromino();
 
 public:
-    void moveDown(const int &rows);
+    bool moveDown(const std::vector<std::vector<TetrisTile>> &matrix);
 
     bool hardMoveDown(const int &rows);
 
-    bool moveLeft(const int &columns);
+    void moveLeft(const std::vector<std::vector<TetrisTile>> &matrix);
 
-    bool moveRight(const int &columns);
+    void moveRight(const std::vector<std::vector<TetrisTile>> &matrix);
 
     void rotate();
 
