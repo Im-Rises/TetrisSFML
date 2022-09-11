@@ -14,7 +14,13 @@ Tetromino Tetromino::getRandomTetromino() {
     std::uniform_int_distribution<std::mt19937::result_type> dist6(0, tetrominosMap.size() - 1);
     auto it = tetrominosMap.begin();
     std::advance(it, dist6(rng));
-    return {it->first};
+    Tetromino tetromino = Tetromino(it->first);
+//    Tetromino tetromino = Tetromino('Z');
+    for (auto &tile : tetromino.data.tiles) {
+        tile.x += COLUMNS / 2;
+    }
+    return tetromino;
+//    return {it->first};
 }
 
 bool Tetromino::moveDown(const std::vector<std::vector<TetrisTile>> &matrix) {
