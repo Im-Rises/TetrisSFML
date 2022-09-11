@@ -69,6 +69,7 @@ void Tetris::handleEvents() {
 int Tetris::updateGame(int cycleCounter) {
     if ((INIT_TIME_FALL / difficultyLevel) <= cycleCounter) {
         if (!fallingTetromino.moveDown(matrix)) {
+
             // Save position of tetromino
             for (auto &tile: fallingTetromino.getTiles()) {
                 auto tileX = static_cast<int>(tile.x);
@@ -76,9 +77,32 @@ int Tetris::updateGame(int cycleCounter) {
                 matrix[tileX][tileY].state = true;
                 matrix[tileX][tileY].color = fallingTetromino.getColor();
             }
+
             // Change tetromino
             fallingTetromino = nextTetromino;
             nextTetromino = Tetromino::getRandomTetromino();
+
+            // Line clearing (to review)
+            for (int y = 0; y < ROWS; y++) {
+                bool lineFull = true;
+                for (int x = 0; x < COLUMNS; x++) {
+                    if (!matrix[x][y].state) {
+                        lineFull = false;
+                        break;
+                    }
+                }
+                if (lineFull) {
+                    for (int x = 0; x < COLUMNS; x++) {
+                        matrix[x][y].state = false;
+                    }
+                    for (int y2 = y; y2 > 0; y2--) {
+                        for (int x = 0; x < COLUMNS; x++) {
+                            matrix[x][y2].state = matrix[x][y2 - 1].state;
+                            matrix[x][y2].color = matrix[x][y2 - 1].color;
+                        }
+                    }
+                }
+            }
         }
         return 0;
     }
