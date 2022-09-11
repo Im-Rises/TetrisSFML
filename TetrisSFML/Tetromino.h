@@ -6,7 +6,7 @@
 
 class Tetromino {
 
-public:
+protected:
     std::vector<sf::Vector2f> tiles;
     sf::Color color;
 
@@ -14,6 +14,8 @@ public:
     Tetromino();
 
     virtual void reset() = 0;
+
+    static Tetromino *getRandomTetromino();
 
     bool moveDown(const int &rows);
 

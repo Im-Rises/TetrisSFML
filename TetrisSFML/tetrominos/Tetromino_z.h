@@ -5,10 +5,12 @@
 
 class Tetromino_z : public Tetromino {
 public:
-	Tetromino_z();
-	//	~Tetromino_z();
-};
+    Tetromino_z();
 
+    void reset() override;
+
+    void rotate() override;
+};
 
 
 #endif // DEF_TETROMINO_Z

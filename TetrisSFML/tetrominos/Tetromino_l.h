@@ -6,8 +6,11 @@
 class Tetromino_l : public Tetromino {
 public:
 	Tetromino_l();
-};
 
+	void reset() override;
+
+	void rotate() override;
+};
 
 
 #endif // DEF_TETROMINO_L

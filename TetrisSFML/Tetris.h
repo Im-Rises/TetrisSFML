@@ -26,7 +26,8 @@ private:
     sf::RectangleShape cell;
     sf::Event event;
 
-    Tetromino_o fallingTetromino;
+    Tetromino *fallingTetromino = Tetromino::getRandomTetromino();
+//    std::unique_ptr<Tetromino> nextTetromino = Tetromino::getRandomTetromino();
 
     struct {
         bool state = false;
