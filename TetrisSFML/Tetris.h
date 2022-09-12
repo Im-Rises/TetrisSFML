@@ -16,13 +16,17 @@ private:
     sf::Event event;
 
     Tetromino fallingTetromino = Tetromino::getRandomTetromino();
-    Tetromino nextTetromino = Tetromino::getRandomTetromino();
+    Tetromino nextTetromino= Tetromino::getRandomTetromino();
 
     std::vector<std::vector<TetrisTile>> matrix;
+
+    int lines = 0;
 
 public:
     Tetris();
     //	~Tetris();
+
+    void reset();
 
     void start();
 

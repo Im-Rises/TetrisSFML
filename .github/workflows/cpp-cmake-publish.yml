@@ -32,6 +32,9 @@ jobs:
           name: artifact-windows
           path: |
             ./TetrisSFML.exe
+            ./sfml-system-2.dll
+            ./sfml-window-2.dll
+            ./sfml-graphics-2.dll
   build-ubuntu:
     name: Build ubuntu
     runs-on: ubuntu-latest

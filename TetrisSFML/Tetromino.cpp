@@ -3,72 +3,94 @@
 #include <random>
 #include <iostream>
 
-
 Tetromino::Tetromino(const char &name) {
     data = tetrominosMap.at(name);
+    cordonateX = COLUMNS / 2;
+    cordonateY = 0;
+    data.name = name;
 }
 
 Tetromino Tetromino::getRandomTetromino() {
+    // Random number generator
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist6(0, tetrominosMap.size() - 1);
+
+    // Get random key from map
     auto it = tetrominosMap.begin();
     std::advance(it, dist6(rng));
-    Tetromino tetromino = Tetromino(it->first);
-//    Tetromino tetromino = Tetromino('Z');
-    for (auto &tile : tetromino.data.tiles) {
-        tile.x += COLUMNS / 2;
-    }
-    return tetromino;
-//    return {it->first};
+
+    // Call Tetromino constructor with random key from tetrominosMap
+    return {it->first};
 }
 
 bool Tetromino::moveDown(const std::vector<std::vector<TetrisTile>> &matrix) {
     for (auto &tile: data.tiles) {
-        if (matrix[0].size() == (1 + tile.y) || matrix[tile.x][1 + tile.y].state) {
+        if (matrix[0].size() == (1 + tile.y + cordonateY) ||
+            matrix[tile.x + cordonateX][1 + tile.y + cordonateY].state) {
             return false;
         }
     }
-    for (auto &tile: data.tiles) {
-        tile.y++;
-    }
+    cordonateY += 1;
     return true;
 }
 
-bool Tetromino::hardMoveDown(const int &rows) {
-//    while (moveDown(rows));
+bool Tetromino::hardMoveDown(const std::vector<std::vector<TetrisTile>> &matrix) {
+    while (moveDown(matrix));
     return true;
 }
 
 
 void Tetromino::moveLeft(const std::vector<std::vector<TetrisTile>> &matrix) {
     for (auto &tile: data.tiles) {
-        if (0 == tile.x || matrix[tile.x - 1][tile.y].state) {
+        if (0 == (tile.x + cordonateX) || matrix[tile.x + cordonateX - 1][tile.y + cordonateY].state) {
             return;
         }
     }
-    for (auto &tile: data.tiles) {
-        tile.x--;
-    }
+    cordonateX--;
 }
 
 void Tetromino::moveRight(const std::vector<std::vector<TetrisTile>> &matrix) {
     for (auto &tile: data.tiles) {
-        if (matrix.size() == (1 + tile.x) || matrix[1 + tile.x][tile.y].state) {
+        if (matrix.size() == (1 + tile.x + cordonateX) || matrix[1 + tile.x + cordonateX][tile.y + cordonateY].state) {
             return;
         }
     }
+    cordonateX++;
+}
+
+void Tetromino::rotateClockwise(const std::vector<std::vector<TetrisTile>> &matrix) {
+    //rotation matrix (x,y) -> (-y,x)
+    if (data.name == "O") {
+        return;
+    }
     for (auto &tile: data.tiles) {
-        tile.x++;
+        int x = tile.x;
+        int y = tile.y;
+        tile.x = -y;
+        tile.y = x;
     }
 }
 
-void Tetromino::rotate() {
-
+void Tetromino::rotateCounterClockwise(const std::vector<std::vector<TetrisTile>> &matrix) {
+    //rotation matrix (x,y) -> (y,-x)
+    if (data.name == "O") {
+        return;
+    }
+    for (auto &tile: data.tiles) {
+        int x = tile.x;
+        int y = tile.y;
+        tile.x = y;
+        tile.y = -x;
+    }
 }
 
 std::vector<sf::Vector2f> Tetromino::getTiles() const {
-    return data.tiles;
+    std::vector<sf::Vector2f> temp;
+    for (auto &tile: data.tiles) {
+        temp.emplace_back(tile.x + cordonateX, tile.y + cordonateY);
+    }
+    return temp;
 }
 
 sf::Color Tetromino::getColor() const {
