@@ -8,10 +8,17 @@
 
 Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE,
                                         CELL_SIZE * ROWS * SCREEN_SIZE), PROJECT_NAME),
-                   cell(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2)),
-                   matrix(COLUMNS, std::vector<TetrisTile>(ROWS)) {
+                   cell(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2)){
     window.setView(sf::View(sf::FloatRect(0, 0, CELL_SIZE * COLUMNS, CELL_SIZE * ROWS)));
+    reset();
+}
+
+void Tetris::reset(){
+    matrix = std::vector<std::vector<TetrisTile>>(COLUMNS, std::vector<TetrisTile>(ROWS));
+    fallingTetromino = Tetromino::getRandomTetromino();
+    nextTetromino = Tetromino::getRandomTetromino();
     difficultyLevel = INIT_LEVEL;
+    lines = 0;
 }
 
 void Tetris::start() {
@@ -43,7 +50,7 @@ void Tetris::handleEvents() {
                         window.close();
                         break;
                     case sf::Keyboard::Up:
-                        fallingTetromino.rotate();
+                        fallingTetromino.rotateClockwise(matrix);
                         break;
                     case sf::Keyboard::Down:
 //                        fallingTetromino.hardMoveDown(ROWS);
@@ -82,7 +89,7 @@ int Tetris::updateGame(int cycleCounter) {
             fallingTetromino = nextTetromino;
             nextTetromino = Tetromino::getRandomTetromino();
 
-            // Line clearing (to review)
+            // Line clearing
             for (int y = 0; y < ROWS; y++) {
                 bool lineFull = true;
                 for (int x = 0; x < COLUMNS; x++) {
@@ -101,6 +108,15 @@ int Tetris::updateGame(int cycleCounter) {
                             matrix[x][y2].color = matrix[x][y2 - 1].color;
                         }
                     }
+                    lines++;
+                }
+            }
+
+            // Handle loose
+            for (int x = 0; x < COLUMNS; x++) {
+                if (matrix[x][0].state) {
+                    reset();
+                    break;
                 }
             }
         }

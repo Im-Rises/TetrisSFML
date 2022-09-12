@@ -63,7 +63,14 @@ void Tetromino::moveRight(const std::vector<std::vector<TetrisTile>> &matrix) {
     }
 }
 
-void Tetromino::rotate() {
+void Tetromino::rotateClockwise(const std::vector<std::vector<TetrisTile>> &matrix){
+
+    Tetromino temp = *this;
+    //rotation matrix (x,y) -> (-y,x)
+}
+
+void Tetromino::rotateCounterClockwise(const std::vector<std::vector<TetrisTile>> &matrix){
+    //rotation matrix (x,y) -> (y,-x)
 
 }
 

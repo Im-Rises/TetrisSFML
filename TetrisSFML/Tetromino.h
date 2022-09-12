@@ -24,7 +24,9 @@ public:
 
     void moveRight(const std::vector<std::vector<TetrisTile>> &matrix);
 
-    void rotate();
+    void rotateClockwise(const std::vector<std::vector<TetrisTile>> &matrix);
+
+    void rotateCounterClockwise(const std::vector<std::vector<TetrisTile>> &matrix);
 
 public:
     [[nodiscard]] std::vector<sf::Vector2f> getTiles() const;
