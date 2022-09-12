@@ -28,33 +28,35 @@ struct TetrominoData {
     sf::Color color;
 };
 
+// Tetrominos are defined by their tiles and their color
+// The tiles are defined by their position relative to the center of the tetromino
 const std::map<char, TetrominoData> tetrominosMap = {
         {'I', {
-                      {{-1, 0}, {-2, 0}, {0, 0}, {1, 0}},
+                      {{-2, 0}, {-1, 0}, {0,  0},  {1,  0}},
                       sf::Color::Cyan
               }},
         {'J', {
-                      {{-2, 0}, {-1, 0}, {0, 0}, {0, 1}},
+                      {{-1, 0}, {0,  0}, {1,  0},  {1,  1}},
                       sf::Color::Blue
               }},
         {'L', {
-                      {{-2, 0}, {-1, 0}, {0, 0}, {-2, 1}},
+                      {{-1, 0}, {0,  0}, {1,  0},  {-1, 1}},
                       sf::Color(255, 165, 0)
               }},
         {'O', {
-                      {{-1, 0}, {0, 0}, {-1, 1}, {0, 1}},
+                      {{-1, 0}, {0,  0}, {-1, 1},  {0,  1}},
                       sf::Color::Yellow
               }},
         {'S', {
-                      {{-2, 1}, {-1, 1}, {-1, 0}, {0, 0}},
+                      {{0,  0}, {1,  0}, {-1, -1}, {0,  -1}},
                       sf::Color::Green
               }},
         {'T', {
-                      {{-2, 1}, {-1, 1}, {0, 1}, {-1, 0}},
+                      {{-1, 0}, {0,  0}, {1,  0},  {0,  1}},
                       sf::Color(128, 0, 128)
               }},
         {'Z', {
-                      {{-2, 0}, {-1, 0}, {-1, 1}, {0, 1}},
+                      {{-1, 0}, {0,  0}, {0,  1},  {1,  1}},
                       sf::Color::Red
               }}
 };

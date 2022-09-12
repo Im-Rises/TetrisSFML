@@ -8,12 +8,12 @@
 
 Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE,
                                         CELL_SIZE * ROWS * SCREEN_SIZE), PROJECT_NAME),
-                   cell(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2)){
+                   cell(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2)) {
     window.setView(sf::View(sf::FloatRect(0, 0, CELL_SIZE * COLUMNS, CELL_SIZE * ROWS)));
     reset();
 }
 
-void Tetris::reset(){
+void Tetris::reset() {
     matrix = std::vector<std::vector<TetrisTile>>(COLUMNS, std::vector<TetrisTile>(ROWS));
     fallingTetromino = Tetromino::getRandomTetromino();
     nextTetromino = Tetromino::getRandomTetromino();
@@ -50,10 +50,10 @@ void Tetris::handleEvents() {
                         window.close();
                         break;
                     case sf::Keyboard::Up:
-                        fallingTetromino.rotateClockwise(matrix);
+                        fallingTetromino.rotateCounterClockwise(matrix);
                         break;
                     case sf::Keyboard::Down:
-//                        fallingTetromino.hardMoveDown(ROWS);
+                        fallingTetromino.hardMoveDown(matrix);
                         break;
                     case sf::Keyboard::Left:
                         fallingTetromino.moveLeft(matrix);

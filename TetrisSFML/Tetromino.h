@@ -7,8 +7,12 @@
 
 class Tetromino {
 
-protected:
+private:
+
     TetrominoData data;
+
+    int cordonateX;
+    int cordonateY;
 
 public:
     Tetromino(const char &name);
@@ -18,7 +22,7 @@ public:
 public:
     bool moveDown(const std::vector<std::vector<TetrisTile>> &matrix);
 
-    bool hardMoveDown(const int &rows);
+    bool hardMoveDown(const std::vector<std::vector<TetrisTile>> &matrix);
 
     void moveLeft(const std::vector<std::vector<TetrisTile>> &matrix);
 
