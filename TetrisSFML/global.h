@@ -26,6 +26,7 @@ struct TetrisTile {
 struct TetrominoData {
     std::vector<sf::Vector2f> tiles;
     sf::Color color;
+    std::string name;
 };
 
 // Tetrominos are defined by their tiles and their color

@@ -3,20 +3,24 @@
 #include <random>
 #include <iostream>
 
-
 Tetromino::Tetromino(const char &name) {
     data = tetrominosMap.at(name);
     cordonateX = COLUMNS / 2;
     cordonateY = 0;
+    data.name = name;
 }
 
 Tetromino Tetromino::getRandomTetromino() {
+    // Random number generator
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist6(0, tetrominosMap.size() - 1);
+
+    // Get random key from map
     auto it = tetrominosMap.begin();
     std::advance(it, dist6(rng));
-//    return Tetromino('T');
+
+    // Call Tetromino constructor with random key from tetrominosMap
     return {it->first};
 }
 
@@ -57,6 +61,9 @@ void Tetromino::moveRight(const std::vector<std::vector<TetrisTile>> &matrix) {
 
 void Tetromino::rotateClockwise(const std::vector<std::vector<TetrisTile>> &matrix) {
     //rotation matrix (x,y) -> (-y,x)
+    if (data.name == "O") {
+        return;
+    }
     for (auto &tile: data.tiles) {
         int x = tile.x;
         int y = tile.y;
@@ -67,6 +74,9 @@ void Tetromino::rotateClockwise(const std::vector<std::vector<TetrisTile>> &matr
 
 void Tetromino::rotateCounterClockwise(const std::vector<std::vector<TetrisTile>> &matrix) {
     //rotation matrix (x,y) -> (y,-x)
+    if (data.name == "O") {
+        return;
+    }
     for (auto &tile: data.tiles) {
         int x = tile.x;
         int y = tile.y;
