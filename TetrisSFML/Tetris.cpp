@@ -6,10 +6,15 @@
 #include <random>
 #include <cmath>
 
-Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE,
+Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE * 2,
                                         CELL_SIZE * ROWS * SCREEN_SIZE), PROJECT_NAME),
-                   cell(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2)) {
-    window.setView(sf::View(sf::FloatRect(0, 0, CELL_SIZE * COLUMNS, CELL_SIZE * ROWS)));
+                   cell(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2)),
+                   previewRectangle(sf::Vector2f(5 * CELL_SIZE, 5 * CELL_SIZE)) {
+    window.setView(sf::View(sf::FloatRect(0, 0, CELL_SIZE * COLUMNS * 2, CELL_SIZE * ROWS)));
+
+    previewRectangle.setFillColor(sf::Color(0, 0, 0));
+    previewRectangle.setOutlineThickness(-1);
+    previewRectangle.setPosition(CELL_SIZE * (1.5f * COLUMNS - 2.5f), CELL_SIZE * (0.25f * ROWS - 2.5f));
     reset();
 }
 
@@ -170,6 +175,15 @@ void Tetris::refreshScreen() {
         }
     }
 
+    // Next tetromino preview display
+    window.draw(previewRectangle);
+    for (auto &tile: nextTetromino.getTiles()) {
+        cell.setFillColor(nextTetromino.getColor());
+        cell.setPosition(CELL_SIZE * (1.5f * COLUMNS - 5 + tile.x),
+                         CELL_SIZE * (0.25f * ROWS + tile.y));
+        window.draw(cell);
+    }
+
     // Falling tetromino display
     cell.setFillColor(fallingTetromino.getColor());
     for (auto &tile: fallingTetromino.getTiles()) {
@@ -180,6 +194,7 @@ void Tetris::refreshScreen() {
     }
 
     // Shadow tetromino display here
+
 
     window.display();
     fps++;

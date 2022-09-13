@@ -15,6 +15,7 @@ private:
     sf::RectangleShape cell;
     sf::Event event;
 
+    sf::RectangleShape previewRectangle;
     Tetromino fallingTetromino = Tetromino::getRandomTetromino();
     Tetromino nextTetromino = Tetromino::getRandomTetromino();
 
