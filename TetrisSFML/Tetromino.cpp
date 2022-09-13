@@ -21,15 +21,14 @@ Tetromino Tetromino::getRandomTetromino() {
 
     // Call Tetromino constructor with random key from tetrominosMap
     return Tetromino('I');
-
     return {it->first};
 }
 
 bool Tetromino::moveDown(const std::vector<std::vector<TetrisTile>> &matrix) {
     for (auto &tile: data.tiles) {
-        if (tile.y >= 0) {
-            const int x = cordonateX + tile.x;
-            const int y = cordonateY + tile.y;
+        const int x = cordonateX + tile.x;
+        const int y = cordonateY + tile.y;
+        if (y >= 0) {
             if (ROWS == (y + 1) ||
                 matrix[x][y + 1].state) {
                 return false;
@@ -70,42 +69,32 @@ void Tetromino::moveRight(const std::vector<std::vector<TetrisTile>> &matrix) {
 
 void Tetromino::rotateClockwise(const std::vector<std::vector<TetrisTile>> &matrix) {
     //rotation matrix (x,y) -> (-y,x)
-    if (data.name == "O") {
-        return;
-    }
-    if (data.fullyRotable) {
-        rotate(false);
-    } else {
-        if (rotated) {
-            rotate(false);
-            rotated = false;
-        } else {
-            rotate(true);
-            rotated = true;
-        }
-    }
+    rotateTetrominoHandler(matrix, false);
 }
 
 void Tetromino::rotateCounterClockwise(const std::vector<std::vector<TetrisTile>> &matrix) {
     //rotation matrix (x,y) -> (y,-x)
+    rotateTetrominoHandler(matrix, true);
+}
+
+void Tetromino::rotateTetrominoHandler(const std::vector<std::vector<TetrisTile>> &matrix, bool counterClockwise) {
     if (data.name == "O") {
         return;
     }
     if (data.fullyRotable) {
-        rotate(true);
+        rotate(matrix, counterClockwise);
     } else {
         if (rotated) {
-            rotate(true);
+            rotate(matrix, false);
             rotated = false;
         } else {
-            rotate(false);
+            rotate(matrix, true);
             rotated = true;
         }
     }
 }
 
-void Tetromino::rotate(bool counterClockwise) {
-
+void Tetromino::rotate(const std::vector<std::vector<TetrisTile>> &matrix, bool counterClockwise) {
     std::vector<sf::Vector2f> newTiles;
     for (auto &tile: data.tiles) {
         if (counterClockwise) {
@@ -115,9 +104,10 @@ void Tetromino::rotate(bool counterClockwise) {
         }
     }
     for (auto &tile: newTiles) {
-        if (tile.x + cordonateX < 0 || tile.x + cordonateX >= COLUMNS ||
-            tile.y + cordonateY >= ROWS) {
-            return;
+        const int x = tile.x + cordonateX;
+        const int y = tile.y + cordonateY;
+        if (y >= 0 && (y >= ROWS || x < 0 || x >= COLUMNS || matrix[x][y].state)) {
+            return;//Cancel rotation
         }
     }
     data.tiles = newTiles;

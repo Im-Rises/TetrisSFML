@@ -86,7 +86,9 @@ public:
     void rotateCounterClockwise(const std::vector<std::vector<TetrisTile>> &matrix);
 
 private:
-    void rotate(bool counterClockwise);
+    void rotateTetrominoHandler(const std::vector<std::vector<TetrisTile>> &matrix, bool counterClockwise);
+
+    void rotate(const std::vector<std::vector<TetrisTile>> &matrix, bool counterClockwise);
 
 public:
     [[nodiscard]] std::vector<sf::Vector2f> getTiles() const;
