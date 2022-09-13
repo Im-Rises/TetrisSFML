@@ -23,20 +23,16 @@ void Tetris::reset() {
 
 void Tetris::start() {
     auto previousTime = std::chrono::steady_clock::now();
-    auto fpsPreviousTime = std::chrono::steady_clock::now();
-    int cycleCounter = 0;
-
+    auto previousFpsTime = std::chrono::steady_clock::now();
     while (window.isOpen()) {
 
         handleEvents();//Update inputs
 
-        cycleCounter = updateGame(cycleCounter);//Update falling tetromino
+        updateGame(previousTime);//Update falling tetromino
 
         refreshScreen();//Update screen
 
-        sleepTime(cycleCounter, previousTime);// Limit the framerate and handle cycleCounter
-
-        handleFps(fpsPreviousTime);//Handle fps display and calculation
+        handleFps(previousFpsTime);//Handle fps display and calculation
     }
 }
 
@@ -107,17 +103,12 @@ void Tetris::handleEvents() {
     }
 }
 
-int Tetris::updateGame(int cycleCounter) {
-    if (softDropDownPressed && (cycleCounter >= 100)) {
-//        if (cycleCounter % 2 == 0) {
-//            fallingTetromino.moveDown(matrix);
-//        }
-    } else {
-//        fallingTetromino.moveDown(matrix);
-    }
-    if ((INIT_TIME_FALL / difficultyLevel) <= cycleCounter) {
+void Tetris::updateGame(std::chrono::steady_clock::time_point &previousTime) {
+    auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - previousTime).count();
+    if (deltaTime > INIT_TIME_FALL / difficultyLevel) {
+        previousTime = std::chrono::steady_clock::now();
         if (!fallingTetromino.moveDown(matrix)) {
-
             // Save position of tetromino
             for (auto &tile: fallingTetromino.getTiles()) {
                 if (tile.y >= 0) {
@@ -161,9 +152,8 @@ int Tetris::updateGame(int cycleCounter) {
                 }
             }
         }
-        return 0;
+        return;
     }
-    return cycleCounter;
 }
 
 void Tetris::refreshScreen() {
@@ -195,16 +185,6 @@ void Tetris::refreshScreen() {
     fps++;
 }
 
-// sleepTimeWith with no fps limit
-void Tetris::sleepTime(int &cycleCounter, std::chrono::steady_clock::time_point &previousTime) {
-    auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - previousTime).count();
-    if (deltaTime > FRAME_DURATION / softMoveDownValue) {
-        cycleCounter++;
-        previousTime = std::chrono::steady_clock::now();
-    }
-}
-
 void Tetris::handleFps(std::chrono::steady_clock::time_point &fpsPreviousTime) {
     auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - fpsPreviousTime).count();
@@ -214,16 +194,3 @@ void Tetris::handleFps(std::chrono::steady_clock::time_point &fpsPreviousTime) {
         fpsPreviousTime = std::chrono::steady_clock::now();
     }
 }
-
-// sleepTimeWith with fps limit
-//void Tetris::sleepTime(int &cycleCounter, std::chrono::steady_clock::time_point &previousTime) {
-//    cycleCounter++;
-//    auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
-//            std::chrono::steady_clock::now() - previousTime).count();
-//    while (deltaTime < FRAME_DURATION) {
-//        deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
-//                std::chrono::steady_clock::now() - previousTime).count();
-//        // Waiting while we reach 16ms
-//    }
-//    previousTime = std::chrono::steady_clock::now();
-//}

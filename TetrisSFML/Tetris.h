@@ -35,11 +35,9 @@ public:
 
     void handleEvents();
 
-    int updateGame(int cycleCounter);
+    void updateGame(std::chrono::steady_clock::time_point &previousTime);
 
     void refreshScreen();
-
-    void sleepTime(int &cyclesCounter, std::chrono::steady_clock::time_point &previousTime);
 
     void handleFps(std::chrono::steady_clock::time_point &fpsPreviousTime);
 };
