@@ -23,7 +23,7 @@ private:
     int lines = 0;
     int fps = 0;
 
-    bool softDropDownPressed = false;
+    int softDropValue = 1;
 
 public:
     Tetris();

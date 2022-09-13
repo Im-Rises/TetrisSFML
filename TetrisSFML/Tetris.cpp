@@ -66,7 +66,7 @@ void Tetris::handleEvents() {
                         fallingTetromino.hardMoveDown(matrix);
                         break;
                     case sf::Keyboard::Down: {
-                        softDropDownPressed = true;
+                        softDropValue = SOFT_DROP_TIME_DIVIDER;
                         break;
                     }
                     case sf::Keyboard::Left:
@@ -88,7 +88,7 @@ void Tetris::handleEvents() {
                         break;
                     }
                     case sf::Keyboard::Down: {
-                        softDropDownPressed = false;
+                        softDropValue = 1;
                         break;
                     }
                     default:
@@ -106,7 +106,7 @@ void Tetris::handleEvents() {
 void Tetris::updateGame(std::chrono::steady_clock::time_point &previousTime) {
     auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - previousTime).count();
-    if (deltaTime > INIT_TIME_FALL / difficultyLevel) {
+    if (deltaTime > INIT_TIME_FALL / difficultyLevel / softDropValue) {
         previousTime = std::chrono::steady_clock::now();
         if (!fallingTetromino.moveDown(matrix)) {
             // Save position of tetromino
