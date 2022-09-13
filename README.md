@@ -239,8 +239,11 @@ The project is set with a set of different scripts:
 
 ## Documentations
 
+Tetris Wiki:  
+<https://tetris.fandom.com/wiki/SRS>
+
 Main documentation:  
-<>
+<https://www.youtube.com/watch?v=vkS1fY_UTyg&t=1s>
 
 SFML:  
 <https://github.com/SFML/SFML>

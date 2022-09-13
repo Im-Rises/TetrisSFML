@@ -23,6 +23,7 @@ void Tetris::reset() {
 
 void Tetris::start() {
     auto previousTime = std::chrono::steady_clock::now();
+    auto fpsPreviousTime = std::chrono::steady_clock::now();
     int cycleCounter = 0;
 
     while (window.isOpen()) {
@@ -34,6 +35,8 @@ void Tetris::start() {
         refreshScreen();//Update screen
 
         sleepTime(cycleCounter, previousTime);// Limit the framerate and handle cycleCounter
+
+        handleFps(fpsPreviousTime);//Handle fps display and calculation
     }
 }
 
@@ -49,17 +52,40 @@ void Tetris::handleEvents() {
                     case sf::Keyboard::Escape:
                         window.close();
                         break;
-                    case sf::Keyboard::Up:
-                        fallingTetromino.rotateCounterClockwise(matrix);
+                    case sf::Keyboard::D:
+                        if (!rotationPressed) {
+                            fallingTetromino.rotateClockwise(matrix);
+                            rotationPressed = true;
+                        }
                         break;
-                    case sf::Keyboard::Down:
+                    case sf::Keyboard::S:
+                        if (!rotationPressed) {
+                            fallingTetromino.rotateCounterClockwise(matrix);
+                            rotationPressed = true;
+                        }
+                        break;
+                    case sf::Keyboard::Up:
                         fallingTetromino.hardMoveDown(matrix);
                         break;
+                    case sf::Keyboard::Down: {
+
+                    }
                     case sf::Keyboard::Left:
                         fallingTetromino.moveLeft(matrix);
                         break;
                     case sf::Keyboard::Right:
                         fallingTetromino.moveRight(matrix);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            }
+            case sf::Event::KeyReleased: {
+                switch (event.key.code) {
+                    case sf::Keyboard::D:
+                    case sf::Keyboard::S:
+                        rotationPressed = false;
                         break;
                     default:
                         break;
@@ -79,10 +105,10 @@ int Tetris::updateGame(int cycleCounter) {
 
             // Save position of tetromino
             for (auto &tile: fallingTetromino.getTiles()) {
-                auto tileX = static_cast<int>(tile.x);
-                auto tileY = static_cast<int>(tile.y);
-                matrix[tileX][tileY].state = true;
-                matrix[tileX][tileY].color = fallingTetromino.getColor();
+                if (tile.y >= 0) {
+                    matrix[tile.x][tile.y].state = true;
+                    matrix[tile.x][tile.y].color = fallingTetromino.getColor();
+                }
             }
 
             // Change tetromino
@@ -142,23 +168,47 @@ void Tetris::refreshScreen() {
     // Falling tetromino display
     cell.setFillColor(fallingTetromino.getColor());
     for (auto &tile: fallingTetromino.getTiles()) {
-        cell.setPosition(CELL_SIZE * tile.x + 1, CELL_SIZE * tile.y + 1);
-        window.draw(cell);
+        if (tile.y >= 0) {
+            cell.setPosition(CELL_SIZE * tile.x + 1, CELL_SIZE * tile.y + 1);
+            window.draw(cell);
+        }
     }
 
     // Shadow tetromino display here
 
     window.display();
+    fps++;
 }
 
+// sleepTimeWith with no fps limit
 void Tetris::sleepTime(int &cycleCounter, std::chrono::steady_clock::time_point &previousTime) {
-    cycleCounter++;
     auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - previousTime).count();
-    while (deltaTime < FRAME_DURATION) {
-        deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::steady_clock::now() - previousTime).count();
-        // Waiting while we reach 16ms
+    if (deltaTime > FRAME_DURATION) {
+        cycleCounter++;
+        previousTime = std::chrono::steady_clock::now();
     }
-    previousTime = std::chrono::steady_clock::now();
 }
+
+void Tetris::handleFps(std::chrono::steady_clock::time_point &fpsPreviousTime) {
+    auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - fpsPreviousTime).count();
+    if (deltaTime > 1000) {
+        window.setTitle(PROJECT_NAME + " - FPS: " + std::to_string(fps));
+        fps = 0;
+        fpsPreviousTime = std::chrono::steady_clock::now();
+    }
+}
+
+// sleepTimeWith with fps limit
+//void Tetris::sleepTime(int &cycleCounter, std::chrono::steady_clock::time_point &previousTime) {
+//    cycleCounter++;
+//    auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+//            std::chrono::steady_clock::now() - previousTime).count();
+//    while (deltaTime < FRAME_DURATION) {
+//        deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+//                std::chrono::steady_clock::now() - previousTime).count();
+//        // Waiting while we reach 16ms
+//    }
+//    previousTime = std::chrono::steady_clock::now();
+//}
