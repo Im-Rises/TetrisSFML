@@ -49,7 +49,10 @@ void Tetris::handleEvents() {
                     case sf::Keyboard::Escape:
                         window.close();
                         break;
-                    case sf::Keyboard::Up:
+                    case sf::Keyboard::D:
+                        fallingTetromino.rotateClockwise(matrix);
+                        break;
+                    case sf::Keyboard::S:
                         fallingTetromino.rotateCounterClockwise(matrix);
                         break;
                     case sf::Keyboard::Down:
@@ -79,10 +82,10 @@ int Tetris::updateGame(int cycleCounter) {
 
             // Save position of tetromino
             for (auto &tile: fallingTetromino.getTiles()) {
-                auto tileX = static_cast<int>(tile.x);
-                auto tileY = static_cast<int>(tile.y);
-                matrix[tileX][tileY].state = true;
-                matrix[tileX][tileY].color = fallingTetromino.getColor();
+                if (tile.y >= 0) {
+                    matrix[tile.x][tile.y].state = true;
+                    matrix[tile.x][tile.y].color = fallingTetromino.getColor();
+                }
             }
 
             // Change tetromino
@@ -142,8 +145,10 @@ void Tetris::refreshScreen() {
     // Falling tetromino display
     cell.setFillColor(fallingTetromino.getColor());
     for (auto &tile: fallingTetromino.getTiles()) {
-        cell.setPosition(CELL_SIZE * tile.x + 1, CELL_SIZE * tile.y + 1);
-        window.draw(cell);
+        if (tile.y >= 0) {
+            cell.setPosition(CELL_SIZE * tile.x + 1, CELL_SIZE * tile.y + 1);
+            window.draw(cell);
+        }
     }
 
     // Shadow tetromino display here

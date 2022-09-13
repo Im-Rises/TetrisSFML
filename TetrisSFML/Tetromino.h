@@ -5,6 +5,56 @@
 #include <vector>
 #include "global.h"
 
+
+// Tetrominos are defined by their tiles and their color
+// The tiles are defined by their position relative to the center of the tetromino
+const std::map<char, TetrominoData> tetrominosMap = {
+        {'I', {
+                      {{-1, 0}, {0, 0}, {1,  0}, {2,  0}},
+//                      {{0,  -1}, {0, 0}, {0,  1}, {0,  2}},
+                      sf::Color::Cyan,
+                      "I",
+                      false
+              }},
+        {'J', {
+                      {{-1, 0}, {0, 0}, {1,  0}, {1,  1}},
+                      sf::Color::Blue,
+                      "J",
+                      true
+              }},
+        {'L', {
+                      {{-1, 0}, {0, 0}, {1,  0}, {-1, 1}},
+                      sf::Color(255, 165, 0),
+                      "L",
+                      true
+              }},
+        {'O', {
+                      {{0,  0}, {1, 0}, {0,  1}, {1,  1}},
+                      sf::Color::Yellow,
+                      "O",
+                      true
+              }},
+        {'S', {
+                      {{0,  0}, {1, 0}, {-1, 1}, {0,  1}},
+                      sf::Color::Green,
+                      "S",
+                      false
+              }},
+        {'T', {
+                      {{-1, 0}, {0, 0}, {1,  0}, {0,  1}},
+                      sf::Color(128, 0, 128),
+                      "T",
+                      true
+              }},
+        {'Z', {
+                      {{-1, 0}, {0, 0}, {0,  1}, {1,  1}},
+                      sf::Color::Red,
+                      "Z",
+                      false
+              }}
+};
+
+
 class Tetromino {
 
 private:
@@ -13,6 +63,8 @@ private:
 
     int cordonateX;
     int cordonateY;
+
+    bool rotated = false;
 
 public:
     Tetromino(const char &name);
@@ -28,9 +80,13 @@ public:
 
     void moveRight(const std::vector<std::vector<TetrisTile>> &matrix);
 
+public:
     void rotateClockwise(const std::vector<std::vector<TetrisTile>> &matrix);
 
     void rotateCounterClockwise(const std::vector<std::vector<TetrisTile>> &matrix);
+
+private:
+    void rotate(bool counterClockwise);
 
 public:
     [[nodiscard]] std::vector<sf::Vector2f> getTiles() const;
