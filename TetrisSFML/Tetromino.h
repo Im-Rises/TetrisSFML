@@ -74,6 +74,8 @@ public:
 public:
     bool moveDown(const std::vector<std::vector<TetrisTile>> &matrix);
 
+    bool quickMoveDown(const std::vector<std::vector<TetrisTile>> &matrix);
+
     bool hardMoveDown(const std::vector<std::vector<TetrisTile>> &matrix);
 
     void moveLeft(const std::vector<std::vector<TetrisTile>> &matrix);

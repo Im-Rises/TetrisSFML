@@ -3,13 +3,13 @@
 
 #include <SFML/Graphics.hpp>
 
-#define PROJECT_NAME "Tetris"
-
 #define BACKGROUND_COLOR sf::Color(0, 50, 120)
 
 #define INIT_LEVEL 10
 #define MAX_LEVEL 20
 #define INIT_TIME_FALL 120 // Intial time at level 1 for a tetromino to fall in seconds
+
+const std::string PROJECT_NAME = "Tetris";
 
 const unsigned char CELL_SIZE = 8;
 const unsigned char COLUMNS = 10;

@@ -16,11 +16,16 @@ private:
     sf::Event event;
 
     Tetromino fallingTetromino = Tetromino::getRandomTetromino();
-    Tetromino nextTetromino= Tetromino::getRandomTetromino();
+    Tetromino nextTetromino = Tetromino::getRandomTetromino();
 
     std::vector<std::vector<TetrisTile>> matrix;
 
     int lines = 0;
+
+    int fps = 0;
+
+    //Button handling
+    bool rotationPressed = false;
 
 public:
     Tetris();
@@ -37,6 +42,8 @@ public:
     void refreshScreen();
 
     void sleepTime(int &cyclesCounter, std::chrono::steady_clock::time_point &previousTime);
+
+    void handleFps(std::chrono::steady_clock::time_point &fpsPreviousTime);
 };
 
 #endif // DEF_TETRIS
