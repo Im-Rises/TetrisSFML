@@ -39,7 +39,7 @@ bool Tetromino::moveDown(const std::vector<std::vector<TetrisTile>> &matrix) {
     return true;
 }
 
-bool Tetromino::quickMoveDown(const std::vector<std::vector<TetrisTile>> &matrix) {
+bool Tetromino::softMoveDown(const std::vector<std::vector<TetrisTile>> &matrix) {
     return false;
 }
 

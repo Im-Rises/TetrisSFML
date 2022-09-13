@@ -41,6 +41,8 @@ void Tetris::start() {
 }
 
 void Tetris::handleEvents() {
+    static bool rotationPressed = false;
+
     while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed: {
@@ -68,7 +70,8 @@ void Tetris::handleEvents() {
                         fallingTetromino.hardMoveDown(matrix);
                         break;
                     case sf::Keyboard::Down: {
-
+                        softDropDownPressed = true;
+                        break;
                     }
                     case sf::Keyboard::Left:
                         fallingTetromino.moveLeft(matrix);
@@ -84,9 +87,14 @@ void Tetris::handleEvents() {
             case sf::Event::KeyReleased: {
                 switch (event.key.code) {
                     case sf::Keyboard::D:
-                    case sf::Keyboard::S:
+                    case sf::Keyboard::S: {
                         rotationPressed = false;
                         break;
+                    }
+                    case sf::Keyboard::Down: {
+                        softDropDownPressed = false;
+                        break;
+                    }
                     default:
                         break;
                 }
@@ -100,6 +108,13 @@ void Tetris::handleEvents() {
 }
 
 int Tetris::updateGame(int cycleCounter) {
+    if (softDropDownPressed && (cycleCounter >= 100)) {
+//        if (cycleCounter % 2 == 0) {
+//            fallingTetromino.moveDown(matrix);
+//        }
+    } else {
+//        fallingTetromino.moveDown(matrix);
+    }
     if ((INIT_TIME_FALL / difficultyLevel) <= cycleCounter) {
         if (!fallingTetromino.moveDown(matrix)) {
 
@@ -184,7 +199,7 @@ void Tetris::refreshScreen() {
 void Tetris::sleepTime(int &cycleCounter, std::chrono::steady_clock::time_point &previousTime) {
     auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - previousTime).count();
-    if (deltaTime > FRAME_DURATION) {
+    if (deltaTime > FRAME_DURATION / softMoveDownValue) {
         cycleCounter++;
         previousTime = std::chrono::steady_clock::now();
     }

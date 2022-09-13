@@ -21,11 +21,9 @@ private:
     std::vector<std::vector<TetrisTile>> matrix;
 
     int lines = 0;
-
     int fps = 0;
 
-    //Button handling
-    bool rotationPressed = false;
+    bool softDropDownPressed = false;
 
 public:
     Tetris();
