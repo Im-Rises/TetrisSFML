@@ -181,14 +181,16 @@ void Tetris::refreshScreen() {
     for (auto &tile: nextTetromino.getTiles()) {
         cell.setFillColor(nextTetromino.getColor());
         std::string name = nextTetromino.getName();
-        if (name == "I" || name == "O") {
-            cell.setPosition((3.0f / 2) * CELL_SIZE * COLUMNS - tile.x * CELL_SIZE,
-                             (2.0f / 5) * CELL_SIZE * COLUMNS - CELL_SIZE * tile.y);
+        float x = (3.0f / 2) * CELL_SIZE * COLUMNS - tile.x * CELL_SIZE;
+        float y = (2.0f / 5) * CELL_SIZE * COLUMNS - tile.y * CELL_SIZE;
+        if (name == "O") {
+            cell.setPosition(x, y);
+        } else if (name == "I") {
+            cell.setPosition(x, y - CELL_SIZE / 2);
         } else {
-            cell.setPosition((3.0f / 2) * CELL_SIZE * COLUMNS - tile.x * CELL_SIZE - CELL_SIZE / 2,
-                             (2.0f / 5) * CELL_SIZE * COLUMNS - CELL_SIZE * tile.y);
+            cell.setPosition(x - CELL_SIZE / 2, y);
         }
-        
+
         window.draw(cell);
     }
 
@@ -203,6 +205,14 @@ void Tetris::refreshScreen() {
     }
 
     // Shadow tetromino display here
+    Tetromino shadow = fallingTetromino.getShadowTetromino(matrix);
+    sf::Color shadowColor = shadow.getColor();
+    shadowColor.a = 120;
+    cell.setFillColor(shadowColor);
+    for (auto &tile: shadow.getTilesPosition()) {
+        cell.setPosition(CELL_SIZE * tile.x + 1, CELL_SIZE * tile.y + 1);
+        window.draw(cell);
+    }
 
 
     window.display();

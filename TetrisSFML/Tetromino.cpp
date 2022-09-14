@@ -117,6 +117,12 @@ void Tetromino::rotate(const std::vector<std::vector<TetrisTile>> &matrix, bool 
     data.tiles = newTiles;
 }
 
+Tetromino Tetromino::getShadowTetromino(const std::vector<std::vector<TetrisTile>> &matrix) {
+    Tetromino temp = *this;
+    while (temp.moveDown(matrix));
+    return temp;
+}
+
 std::vector<sf::Vector2f> Tetromino::getTilesPosition() const {
     std::vector<sf::Vector2f> temp;
     for (auto &tile: data.tiles) {
@@ -124,7 +130,6 @@ std::vector<sf::Vector2f> Tetromino::getTilesPosition() const {
     }
     return temp;
 }
-
 
 std::vector<sf::Vector2f> Tetromino::getTiles() const {
     return tetrominosMap.at(data.name[0]).tiles;
