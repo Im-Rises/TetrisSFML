@@ -39,6 +39,10 @@ release section of the GitHub page.
 Depending on you `operating system` you will need to install some libs, they are installed differently depending on your
 system, please follow one of the section below `Windows` or `Linux` or `MacOs`.
 
+> **Note**
+> Be carefull you have the Text Font `Arial` in the folder `font` next to the executable. Without it the game will
+> crash.
+
 ### Windows
 
 <a href="https://github.com/Im-Rises/TetrisSFML/releases/latest"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="cmakeLogo" style="height:40px;"/></a>
@@ -57,13 +61,13 @@ command next to it:
 
 <a href="https://github.com/Im-Rises/TetrisSFML/releases/latest"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="cmakeLogo" style="height:40px;"/></a>
 
-For Linux users, you need to install the SDL2 lib, to do so type one of the following commands:
+For Linux users, you need to install the SFML lib, to do so type one of the following commands:
 
 ```bash
-
+sudo apt-get install libsfml
 ```
 
-or if you're a developer and want to compile the Emulator, please install this version of SDL2:
+or if you're a developer and want to compile the Emulator, please install this version of SFML:
 
 ```bash
 sudo apt-get install libsfml-dev
@@ -82,7 +86,7 @@ Then you can start by double-clicking the executable of typing the following com
 For macOS users you will need to install Brew, please follow the instruction in the link below:  
 <https://brew.sh>
 
-Once it is installed, you can type the following command to install SDL2.
+Once it is installed, you can type the following command to install SFML.
 
 ```bash
 brew install sfml
@@ -96,41 +100,52 @@ Then you can start by double-clicking the executable of typing the following com
 
 ## Game controls
 
-Placeholder
+To play the game, you needf to use your keyboard with the following controls:
+
+| Description              | Keyboard |
+|--------------------------|----------|
+| ←                        | ←        |
+| →                        | →        |
+| Hard Drop                | ↑        |
+| Soft Drop                | ↓        |
+| Rotate clockwise         | S        |
+| Rotate counter clockwise | D        |
 
 ## Project architecture
 
-<!--
 ~~~
-project-revision
-├── dataset
-|  ├── test
-|  ├── train
-├── docs
-├── misc
-|   ├── dataset
-|   ├── resize.py
-├── src
-|   ├── denoise
-|   |   |── __init__.py
-|   |   |── denoise.py
-|   |   |── errors.py
-|   ├── noise
-|   |   |── __init__.py
-|   |   |── errors.py
-|   |   |── noise.py
-|   ├── results
-|   ├── cobra.py
-|   ├── cobramachine.py
-|   ├── denoise.py
-|   ├── helper.py
-|   ├── main.py
-|   ├── req.txt
+TetrisSFML
+├── .github
+|  ├── labels.yml
+|  ├── release.yml
+│  ├── workflows
+│  │   |── cmake.yml
+│  │   |── codeql.yml
+│  │   |── cpp-cmake-publish.yml
+│  │   |── cpp-linter.yml
+│  │   |── dependency-review.yml
+│  │   |── flawfinder.yml
+│  │   |── greetings.yml
+│  │   |── label.yml
+│  │   |── msvc.yml
+│  │   |── stale.yml
+├── font
+|   ├── arrial.ttf
+├── TetrisSFML
+|  ├── CMakeLists.txt
+|  ├── global.h
+|  ├── main.cpp
+|  ├── Tetris.cpp
+|  ├── Tetris.h
+|  ├── Tetromino.cpp
+|  ├── Tetromino.h
+├── .clang-format
+├── .editorconfig
+├── .gitaattributes
+├── .gitignore
+├── CMakelists.txt
 ├── README.md
-├── guidelines.md
-├── proposal.md
 ~~~
--->
 
 ## Compilation
 
