@@ -18,26 +18,26 @@ Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE * 2,
     previewRectangle.setOutlineThickness(-1);
     previewRectangle.setPosition(x, y);
 
-    if (!font.loadFromFile("font/arial.ttf")) {
+    if (!font.loadFromFile(FONT_PATH)) {
         exit(1);
     }
 
     int textY = CELL_SIZE * ROWS / 2;
 
-    textBackground.setFillColor(sf::Color(0, 0, 0));
-//    textBackground.setOutlineThickness(-1);
-    textBackground.setSize(sf::Vector2f(CELL_SIZE * 5, CELL_SIZE * 2));
-    textBackground.setPosition(x, textY);
+//    textBackground.setFillColor(sf::Color(0, 0, 0));
+//////    textBackground.setOutlineThickness(-1);
+//    textBackground.setSize(sf::Vector2f(CELL_SIZE * 5, CELL_SIZE * 2));
+//    textBackground.setPosition(x, textY);
 
     linesText.setFont(font);
     linesText.setCharacterSize(CELL_SIZE);
     linesText.setFillColor(sf::Color::White);
-    linesText.setPosition(x + 1, textY - 1);
+    linesText.setPosition(x, textY);
 
     levelText.setFont(font);
     levelText.setCharacterSize(CELL_SIZE);
     levelText.setFillColor(sf::Color::White);
-    levelText.setPosition(x + 1, textY + CELL_SIZE - 1);
+    levelText.setPosition(x, textY + CELL_SIZE);
 
     reset();
 }
@@ -244,8 +244,8 @@ void Tetris::refreshScreen() {
         window.draw(cell);
     }
 
-    // Text background display
-    window.draw(textBackground);
+//    // Text background display
+//    window.draw(textBackground);
 
     // Display score
     linesText.setString("Lines: " + std::to_string(lines));
