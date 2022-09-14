@@ -4,18 +4,41 @@
 #include <chrono>
 #include <iostream>
 #include <random>
-#include <cmath>
 
 Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE * 2,
-                                        CELL_SIZE * ROWS * SCREEN_SIZE), PROJECT_NAME),
+                                        CELL_SIZE * ROWS * SCREEN_SIZE), PROJECT_NAME,
+                          sf::Style::Titlebar | sf::Style::Close),
                    cell(sf::Vector2f(CELL_SIZE - 1, CELL_SIZE - 1)),
                    previewRectangle(sf::Vector2f(5 * CELL_SIZE, 5 * CELL_SIZE)) {
     window.setView(sf::View(sf::FloatRect(0, 0, CELL_SIZE * COLUMNS * 2, CELL_SIZE * ROWS + 1)));
 
+    int x = (3.0f / 2) * CELL_SIZE * COLUMNS - 2.5 * CELL_SIZE;
+    int y = (2.0f / 5) * CELL_SIZE * COLUMNS - 2.5 * CELL_SIZE;
     previewRectangle.setFillColor(sf::Color(0, 0, 0));
     previewRectangle.setOutlineThickness(-1);
-    previewRectangle.setPosition((3.0f / 2) * CELL_SIZE * COLUMNS - 2.5 * CELL_SIZE,
-                                 (2.0f / 5) * CELL_SIZE * COLUMNS - 2.5 * CELL_SIZE);
+    previewRectangle.setPosition(x, y);
+
+    if (!font.loadFromFile("arial.ttf")) {
+        exit(1);
+    }
+
+    int textY = CELL_SIZE * ROWS / 2;
+
+    textBackground.setFillColor(sf::Color(0, 0, 0));
+//    textBackground.setOutlineThickness(-1);
+    textBackground.setSize(sf::Vector2f(CELL_SIZE * 5, CELL_SIZE * 2));
+    textBackground.setPosition(x, textY);
+
+    linesText.setFont(font);
+    linesText.setCharacterSize(CELL_SIZE);
+    linesText.setFillColor(sf::Color::White);
+    linesText.setPosition(x + 1, textY - 1);
+
+    levelText.setFont(font);
+    levelText.setCharacterSize(CELL_SIZE);
+    levelText.setFillColor(sf::Color::White);
+    levelText.setPosition(x + 1, textY + CELL_SIZE - 1);
+
     reset();
 }
 
@@ -58,13 +81,13 @@ void Tetris::handleEvents() {
                         break;
                     case sf::Keyboard::D:
                         if (!rotationPressed) {
-                            fallingTetromino.rotateClockwise(matrix);
+                            fallingTetromino.rotateCounterClockwise(matrix);
                             rotationPressed = true;
                         }
                         break;
                     case sf::Keyboard::S:
                         if (!rotationPressed) {
-                            fallingTetromino.rotateCounterClockwise(matrix);
+                            fallingTetromino.rotateClockwise(matrix);
                             rotationPressed = true;
                         }
                         break;
@@ -150,6 +173,13 @@ void Tetris::updateGame(std::chrono::steady_clock::time_point &previousTime) {
                 }
             }
 
+            // Handle level
+            static int previousLinesLevelUp = 0;
+            if (lines - previousLinesLevelUp > NB_LINES_DIFFICULTY_CHANGE && difficultyLevel <= MAX_LEVEL) {
+                difficultyLevel++;
+                previousLinesLevelUp = lines;
+            }
+
             // Handle loose
             for (int x = 0; x < COLUMNS; x++) {
                 if (matrix[x][0].state) {
@@ -214,7 +244,18 @@ void Tetris::refreshScreen() {
         window.draw(cell);
     }
 
+    // Text background display
+    window.draw(textBackground);
 
+    // Display score
+    linesText.setString("Lines: " + std::to_string(lines));
+    window.draw(linesText);
+
+    // Display level
+    levelText.setString("Level: " + std::to_string(difficultyLevel));
+    window.draw(levelText);
+
+    // Refresh screen
     window.display();
     fps++;
 }

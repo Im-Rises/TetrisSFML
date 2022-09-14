@@ -5,8 +5,10 @@
 
 #define BACKGROUND_COLOR sf::Color(0, 50, 120)
 
-#define INIT_LEVEL 10
-#define MAX_LEVEL 10
+#define INIT_LEVEL 1 // Initial difficulty level
+#define MAX_LEVEL 10 // Max level is 10
+
+#define NB_LINES_DIFFICULTY_CHANGE 10 // Number of lines cleared to increase the difficulty level by 1
 
 #define INIT_TIME_FALL 2000 // Intial time at level 1 for a tetromino to fall in ms
 #define SOFT_DROP_TIME_DIVIDER 4 // Drop time is divided by this value when soft drop is activated

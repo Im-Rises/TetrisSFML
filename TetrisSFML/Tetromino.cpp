@@ -142,5 +142,3 @@ sf::Color Tetromino::getColor() const {
 std::string Tetromino::getName() const {
     return data.name;
 }
-
-

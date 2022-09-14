@@ -26,6 +26,11 @@ private:
 
     int softDropValue = 1;
 
+    sf::RectangleShape textBackground;
+    sf::Font font;
+    sf::Text linesText;
+    sf::Text levelText;
+
 public:
     Tetris();
     //	~Tetris();
