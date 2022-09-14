@@ -8,13 +8,14 @@
 
 Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE * 2,
                                         CELL_SIZE * ROWS * SCREEN_SIZE), PROJECT_NAME),
-                   cell(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2)),
+                   cell(sf::Vector2f(CELL_SIZE - 1, CELL_SIZE - 1)),
                    previewRectangle(sf::Vector2f(5 * CELL_SIZE, 5 * CELL_SIZE)) {
-    window.setView(sf::View(sf::FloatRect(0, 0, CELL_SIZE * COLUMNS * 2, CELL_SIZE * ROWS)));
+    window.setView(sf::View(sf::FloatRect(0, 0, CELL_SIZE * COLUMNS * 2, CELL_SIZE * ROWS + 1)));
 
     previewRectangle.setFillColor(sf::Color(0, 0, 0));
     previewRectangle.setOutlineThickness(-1);
-    previewRectangle.setPosition(CELL_SIZE * (1.5f * COLUMNS - 2.5f), CELL_SIZE * (0.25f * ROWS - 2.5f));
+    previewRectangle.setPosition((3.0f / 2) * CELL_SIZE * (COLUMNS) - 2.5 * CELL_SIZE,
+                                 (2.0f / 5) * CELL_SIZE * (COLUMNS) - 2.5 * CELL_SIZE);
     reset();
 }
 
@@ -176,13 +177,23 @@ void Tetris::refreshScreen() {
     }
 
     // Next tetromino preview display
+//    window.draw(previewRectangle);
+//    for (auto &tile: nextTetromino.getTiles()) {
+//        cell.setFillColor(nextTetromino.getColor());
+//        //    previewRectangle.setPosition((3.0f / 2) * CELL_SIZE * (COLUMNS) - 2.5 * CELL_SIZE,
+//        //                                 (2.0f / 5) * CELL_SIZE * (COLUMNS) - 2.5 * CELL_SIZE);
+//        cell.setPosition(CELL_SIZE * (COLUMNS) + 30,
+//                         CELL_SIZE * (ROWS + tile.y) - 100);
+//        window.draw(cell);
+//    }
     window.draw(previewRectangle);
-    for (auto &tile: nextTetromino.getTiles()) {
+    for (auto &tile: tetrominosMap.at('I').tiles) {
         cell.setFillColor(nextTetromino.getColor());
-        cell.setPosition(CELL_SIZE * (1.5f * COLUMNS - 5 + tile.x),
-                         CELL_SIZE * (0.25f * ROWS + tile.y));
+        cell.setPosition(CELL_SIZE * (COLUMNS) + 30,
+                         CELL_SIZE * (ROWS + tile.y) - 100);
         window.draw(cell);
     }
+
 
     // Falling tetromino display
     cell.setFillColor(fallingTetromino.getColor());
