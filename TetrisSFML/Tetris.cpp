@@ -18,7 +18,7 @@ Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE * 2,
     previewRectangle.setOutlineThickness(-1);
     previewRectangle.setPosition(x, y);
 
-    if (!font.loadFromFile("arial.ttf")) {
+    if (!font.loadFromFile("font/arial.ttf")) {
         exit(1);
     }
 
