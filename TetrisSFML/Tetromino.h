@@ -42,7 +42,7 @@ const std::map<char, TetrominoData> tetrominosMap = {
               }},
         {'T', {
                       {{-1, 0}, {0, 0}, {1,  0}, {0,  1}},
-                      sf::Color(128, 0, 128),
+                      sf::Color(157, 50, 168),
                       "T",
                       true
               }},
@@ -74,7 +74,7 @@ public:
 public:
     bool moveDown(const std::vector<std::vector<TetrisTile>> &matrix);
 
-    bool quickMoveDown(const std::vector<std::vector<TetrisTile>> &matrix);
+    bool softMoveDown(const std::vector<std::vector<TetrisTile>> &matrix);
 
     bool hardMoveDown(const std::vector<std::vector<TetrisTile>> &matrix);
 
@@ -93,9 +93,16 @@ private:
     void rotate(const std::vector<std::vector<TetrisTile>> &matrix, bool counterClockwise);
 
 public:
+    Tetromino getShadowTetromino(const std::vector<std::vector<TetrisTile>> &matrix);
+
+public:
+    [[nodiscard]] std::vector<sf::Vector2f> getTilesPosition() const;
+
     [[nodiscard]] std::vector<sf::Vector2f> getTiles() const;
 
     [[nodiscard]] sf::Color getColor() const;
+
+    [[nodiscard]] std::string getName() const;
 };
 
 #endif // DEF_TETROMINO
