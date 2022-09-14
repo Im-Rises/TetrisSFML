@@ -93,9 +93,13 @@ private:
     void rotate(const std::vector<std::vector<TetrisTile>> &matrix, bool counterClockwise);
 
 public:
+    [[nodiscard]] std::vector<sf::Vector2f> getTilesPosition() const;
+
     [[nodiscard]] std::vector<sf::Vector2f> getTiles() const;
 
     [[nodiscard]] sf::Color getColor() const;
+
+    [[nodiscard]] std::string getName() const;
 };
 
 #endif // DEF_TETROMINO

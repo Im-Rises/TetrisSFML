@@ -14,8 +14,8 @@ Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE * 2,
 
     previewRectangle.setFillColor(sf::Color(0, 0, 0));
     previewRectangle.setOutlineThickness(-1);
-    previewRectangle.setPosition((3.0f / 2) * CELL_SIZE * (COLUMNS) - 2.5 * CELL_SIZE,
-                                 (2.0f / 5) * CELL_SIZE * (COLUMNS) - 2.5 * CELL_SIZE);
+    previewRectangle.setPosition((3.0f / 2) * CELL_SIZE * COLUMNS - 2.5 * CELL_SIZE,
+                                 (2.0f / 5) * CELL_SIZE * COLUMNS - 2.5 * CELL_SIZE);
     reset();
 }
 
@@ -116,7 +116,7 @@ void Tetris::updateGame(std::chrono::steady_clock::time_point &previousTime) {
         previousTime = std::chrono::steady_clock::now();
         if (!fallingTetromino.moveDown(matrix)) {
             // Save position of tetromino
-            for (auto &tile: fallingTetromino.getTiles()) {
+            for (auto &tile: fallingTetromino.getTilesPosition()) {
                 if (tile.y >= 0) {
                     matrix[tile.x][tile.y].state = true;
                     matrix[tile.x][tile.y].color = fallingTetromino.getColor();
@@ -177,27 +177,25 @@ void Tetris::refreshScreen() {
     }
 
     // Next tetromino preview display
-//    window.draw(previewRectangle);
-//    for (auto &tile: nextTetromino.getTiles()) {
-//        cell.setFillColor(nextTetromino.getColor());
-//        //    previewRectangle.setPosition((3.0f / 2) * CELL_SIZE * (COLUMNS) - 2.5 * CELL_SIZE,
-//        //                                 (2.0f / 5) * CELL_SIZE * (COLUMNS) - 2.5 * CELL_SIZE);
-//        cell.setPosition(CELL_SIZE * (COLUMNS) + 30,
-//                         CELL_SIZE * (ROWS + tile.y) - 100);
-//        window.draw(cell);
-//    }
     window.draw(previewRectangle);
-    for (auto &tile: tetrominosMap.at('I').tiles) {
+    for (auto &tile: nextTetromino.getTiles()) {
         cell.setFillColor(nextTetromino.getColor());
-        cell.setPosition(CELL_SIZE * (COLUMNS) + 30,
-                         CELL_SIZE * (ROWS + tile.y) - 100);
+        std::string name = nextTetromino.getName();
+        if (name == "I" || name == "O") {
+            cell.setPosition((3.0f / 2) * CELL_SIZE * COLUMNS - tile.x * CELL_SIZE,
+                             (2.0f / 5) * CELL_SIZE * COLUMNS - CELL_SIZE * tile.y);
+        } else {
+            cell.setPosition((3.0f / 2) * CELL_SIZE * COLUMNS - tile.x * CELL_SIZE - CELL_SIZE / 2,
+                             (2.0f / 5) * CELL_SIZE * COLUMNS - CELL_SIZE * tile.y);
+        }
+        
         window.draw(cell);
     }
 
 
     // Falling tetromino display
     cell.setFillColor(fallingTetromino.getColor());
-    for (auto &tile: fallingTetromino.getTiles()) {
+    for (auto &tile: fallingTetromino.getTilesPosition()) {
         if (tile.y >= 0) {
             cell.setPosition(CELL_SIZE * tile.x + 1, CELL_SIZE * tile.y + 1);
             window.draw(cell);
