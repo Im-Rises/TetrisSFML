@@ -11,14 +11,16 @@ github-actions:
   - '.github/**/*.yml'
 
 src:
-  - 'TetrisSFML/**/*.{cpp,hpp}'
+  - 'TetrisSFML/**/*.{cpp,h}'
 
 main:
   - 'TetrisSFML/main.*'
 
+Tetris:
+  - 'TetrisSFML/Tetris.{cpp,h}'
+
 tetrominos:
-  - 'TetrisSFML/'
-  - 'TetrisSFML/Tetromino.*'
+  - 'TetrisSFML/Tetromino.{cpp,h}'
 
 SFML:
   - 'TetrisSFML/include/SFML/**'
