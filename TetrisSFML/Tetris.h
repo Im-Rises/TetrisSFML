@@ -31,7 +31,9 @@ private:
     sf::Text linesText;
     sf::Text levelText;
 
-    std::vector<int> linesToDoClearEffect;
+    std::vector<int> linesToDoClearEffect; // List of lines to do the clear animation
+    int linesClearedEffectTimer = 30; // 30 levels of diminution of the square size
+    sf::Vector2f squareLineClearEffectSize; // Size of the square for the clear effect
 
 public:
     Tetris();
