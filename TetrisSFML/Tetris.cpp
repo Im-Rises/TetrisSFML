@@ -258,18 +258,18 @@ void Tetris::refreshScreen(std::chrono::steady_clock::time_point &animationPrevi
     if (!linesToDoClearEffect.empty()) {
         auto delatime = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - animationPreviousTime).count();
-        if (delatime > 100) {
+        if (delatime > 10) {
             animationPreviousTime = std::chrono::steady_clock::now();
             linesClearedEffectTimer--;
-            squareLineClearEffectSize = sf::Vector2f(squareLineClearEffectSize.x / linesClearedEffectTimer,
-                                                     squareLineClearEffectSize.y / linesClearedEffectTimer);
+            squareLineClearEffectSize -= sf::Vector2f(0.1f, 0.1f);
         }
 
         for (auto &line: linesToDoClearEffect) {
             for (int x = 0; x < COLUMNS; x++) {
                 sf::RectangleShape cellClearEffect(squareLineClearEffectSize);
                 cellClearEffect.setFillColor(sf::Color::White);
-                cellClearEffect.setPosition(CELL_SIZE * x + 1, CELL_SIZE * line + 1);
+                cellClearEffect.setPosition(CELL_SIZE * x + 1 + squareLineClearEffectSize.x / 2,
+                                            CELL_SIZE * line + 1 + squareLineClearEffectSize.y / 2);
                 window.draw(cellClearEffect);
             }
         }
@@ -278,6 +278,7 @@ void Tetris::refreshScreen(std::chrono::steady_clock::time_point &animationPrevi
         if (linesClearedEffectTimer == 0) {
             linesToDoClearEffect.clear();
             squareLineClearEffectSize = cell.getSize();
+            linesClearedEffectTimer = 30;
         }
     }
 
