@@ -23,21 +23,17 @@ Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE * 2,
     }
 
     int textY = CELL_SIZE * ROWS / 2;
-
-//    textBackground.setFillColor(sf::Color(0, 0, 0));
-//////    textBackground.setOutlineThickness(-1);
-//    textBackground.setSize(sf::Vector2f(CELL_SIZE * 5, CELL_SIZE * 2));
-//    textBackground.setPosition(x, textY);
+    int fontSize = std::floor(CELL_SIZE * 1.5);
 
     linesText.setFont(font);
-    linesText.setCharacterSize(CELL_SIZE);
+    linesText.setCharacterSize(fontSize);
     linesText.setFillColor(sf::Color::White);
     linesText.setPosition(x, textY);
 
     levelText.setFont(font);
-    levelText.setCharacterSize(CELL_SIZE);
+    levelText.setCharacterSize(fontSize);
     levelText.setFillColor(sf::Color::White);
-    levelText.setPosition(x, textY + CELL_SIZE);
+    levelText.setPosition(x, textY + CELL_SIZE * 2);
 
     reset();
 }
@@ -53,13 +49,14 @@ void Tetris::reset() {
 void Tetris::start() {
     auto previousTime = std::chrono::steady_clock::now();
     auto previousFpsTime = std::chrono::steady_clock::now();
+    auto animationPreviousTime = std::chrono::steady_clock::now();
     while (window.isOpen()) {
 
         handleEvents();//Update inputs
 
         updateGame(previousTime);//Update falling tetromino
 
-        refreshScreen();//Update screen
+        refreshScreen(animationPreviousTime);//Update screen
 
         handleFps(previousFpsTime);//Handle fps display and calculation
     }
@@ -192,7 +189,9 @@ void Tetris::updateGame(std::chrono::steady_clock::time_point &previousTime) {
     }
 }
 
-void Tetris::refreshScreen() {
+void Tetris::refreshScreen(std::chrono::steady_clock::time_point &animationPreviousTime) {
+    window.clear();
+
     // Background display
     for (auto x = 0; x < COLUMNS; x++) {
         for (auto y = 0; y < ROWS; y++) {
@@ -244,9 +243,6 @@ void Tetris::refreshScreen() {
         window.draw(cell);
     }
 
-//    // Text background display
-//    window.draw(textBackground);
-
     // Display score
     linesText.setString("Lines: " + std::to_string(lines));
     window.draw(linesText);
@@ -257,6 +253,8 @@ void Tetris::refreshScreen() {
 
     // Refresh screen
     window.display();
+
+    //Increment FPS
     fps++;
 }
 

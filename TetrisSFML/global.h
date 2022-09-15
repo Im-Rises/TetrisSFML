@@ -22,6 +22,10 @@ const int SCREEN_SIZE = 4;
 
 const std::string FONT_PATH = "arial.ttf";
 
+//const int LINES_TIME_DELETION_ANIMATION = 10000; // Time in ms for the lines to be deleted
+//
+//const int LINES_DELETION_FRAME_NUMBER = 24;
+
 struct TetrisTile {
     bool state = false;
     sf::Color color = BACKGROUND_COLOR;
