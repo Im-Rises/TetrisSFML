@@ -16,13 +16,13 @@ const std::map<char, TetrominoData> tetrominosMap = {
                       false
               }},
         {'J', {
-                      {{-1, 0}, {0, 0}, {1,  0},  {-1, -1}},
+                      {{-1, 0}, {0, 0}, {1,  0},  {1,  1}},
                       sf::Color::Blue,
                       "J",
                       true
               }},
         {'L', {
-                      {{-1, 0}, {0, 0}, {1,  0},  {1,  -1}},
+                      {{-1, 0}, {0, 0}, {1,  0},  {-1, 1}},
                       sf::Color(255, 165, 0),
                       "L",
                       true
@@ -96,6 +96,8 @@ public:
     [[nodiscard]] std::vector<sf::Vector2f> getTilesPosition() const;
 
     [[nodiscard]] std::vector<sf::Vector2f> getTiles() const;
+
+    [[nodiscard]] std::vector<sf::Vector2f> getTilesXReversed() const;
 
     [[nodiscard]] sf::Color getColor() const;
 

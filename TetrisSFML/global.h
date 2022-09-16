@@ -20,7 +20,7 @@ const int COLUMNS = 10;
 const int ROWS = 20;
 const int SCREEN_SIZE = 4;
 
-const std::string FONT_PATH = "arial.ttf";
+const std::string FONT_PATH = "./font/arial.ttf";
 
 const int CLEAR_LINES_EFFECT_TIME = 3;
 const int NB_ANIM = 30; // Number of different animation in the clear effect

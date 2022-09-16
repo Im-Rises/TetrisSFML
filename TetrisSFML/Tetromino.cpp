@@ -6,7 +6,10 @@
 Tetromino::Tetromino(const char &name) {
     data = tetrominosMap.at(name);
     cordonateX = (COLUMNS / 2) - 1;
-    cordonateY = 0;
+    if (data.name == "O" || data.name == "T")
+        cordonateY = 1;
+    else
+        cordonateY = 0;
 }
 
 Tetromino Tetromino::getRandomTetromino() {
@@ -20,7 +23,7 @@ Tetromino Tetromino::getRandomTetromino() {
     std::advance(it, dist6(rng));
 
     // Call Tetromino constructor with random key from tetrominosMap
-//    return Tetromino('Z');
+//    return Tetromino('O');
     return {it->first};
 }
 
@@ -129,6 +132,14 @@ std::vector<sf::Vector2f> Tetromino::getTilesPosition() const {
 
 std::vector<sf::Vector2f> Tetromino::getTiles() const {
     return tetrominosMap.at(data.name[0]).tiles;
+}
+
+std::vector<sf::Vector2f> Tetromino::getTilesXReversed() const {
+    std::vector<sf::Vector2f> temp;
+    for (auto &tile: data.tiles) {
+        temp.emplace_back(-tile.x, tile.y);
+    }
+    return temp;
 }
 
 sf::Color Tetromino::getColor() const {

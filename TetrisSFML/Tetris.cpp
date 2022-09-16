@@ -233,16 +233,16 @@ void Tetris::refreshScreen(std::chrono::steady_clock::time_point &animationPrevi
 
     // Next tetromino preview display
     window.draw(previewRectangle);
-    for (auto &tile: nextTetromino.getTiles()) {
+    for (auto &tile: nextTetromino.getTilesXReversed()) {
         cell.setFillColor(nextTetromino.getColor());
         std::string name = nextTetromino.getName();
         float x = (3.0f / 2) * CELL_SIZE * COLUMNS - tile.x * CELL_SIZE;
         float y = (2.0f / 5) * CELL_SIZE * COLUMNS + tile.y * CELL_SIZE;
         if (name == "O") {
-            cell.setPosition(x, y);
+            cell.setPosition(x - CELL_SIZE, y);
         } else if (name == "I") {
-            cell.setPosition(x, (y - CELL_SIZE / 2));
-        } else if (name == "S" || name == "Z") {
+            cell.setPosition(x - CELL_SIZE, y - CELL_SIZE / 2);
+        } else if (name == "S" || name == "Z" || name == "J" || name == "L") {
             cell.setPosition(x - CELL_SIZE / 2, y - CELL_SIZE);
         } else {
             cell.setPosition(x - CELL_SIZE / 2, y);
@@ -250,7 +250,6 @@ void Tetris::refreshScreen(std::chrono::steady_clock::time_point &animationPrevi
 
         window.draw(cell);
     }
-
 
     // Falling tetromino display
     cell.setFillColor(fallingTetromino.getColor());
