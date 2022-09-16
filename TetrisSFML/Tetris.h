@@ -26,6 +26,7 @@ private:
     Tetromino nextTetromino = Tetromino::getRandomTetromino();
 
     std::vector<std::vector<TetrisTile>> matrix;
+    std::vector<std::vector<TetrisTile>> previousMatrix;
 
     sf::Font font;
     sf::Text linesText;

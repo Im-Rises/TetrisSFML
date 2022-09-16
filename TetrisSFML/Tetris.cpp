@@ -132,63 +132,63 @@ void Tetris::handleEvents() {
 }
 
 void Tetris::updateGame(std::chrono::steady_clock::time_point &previousTime) {
-    auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - previousTime).count();
-    if (deltaTime > INIT_TIME_FALL / difficultyLevel / softDropValue) {
-        previousTime = std::chrono::steady_clock::now();
-        if (!fallingTetromino.moveDown(matrix)) {
-            // Save position of tetromino
-            for (auto &tile: fallingTetromino.getTilesPosition()) {
-                if (tile.y >= 0) {
-                    matrix[tile.x][tile.y].state = true;
-                    matrix[tile.x][tile.y].color = fallingTetromino.getColor();
+    if (linesToDoClearEffect.empty()) {
+        auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - previousTime).count();
+        if (deltaTime > INIT_TIME_FALL / difficultyLevel / softDropValue) {
+            previousTime = std::chrono::steady_clock::now();
+            if (!fallingTetromino.moveDown(matrix)) {
+                // Save position of tetromino
+                for (auto &tile: fallingTetromino.getTilesPosition()) {
+                    if (tile.y >= 0) {
+                        matrix[tile.x][tile.y].state = true;
+                        matrix[tile.x][tile.y].color = fallingTetromino.getColor();
+                    }
                 }
-            }
 
-            // Change tetromino
-            fallingTetromino = nextTetromino;
-            nextTetromino = Tetromino::getRandomTetromino();
+                // Change tetromino
+                fallingTetromino = nextTetromino;
+                nextTetromino = Tetromino::getRandomTetromino();
 
-            // Line clearing
-            for (int y = 0; y < ROWS; y++) {
-                bool lineFull = true;
+                // Line clearing
+                for (int y = 0; y < ROWS; y++) {
+                    bool lineFull = true;
+                    for (int x = 0; x < COLUMNS; x++) {
+                        if (!matrix[x][y].state) {
+                            lineFull = false;
+                            break;
+                        }
+                    }
+                    if (lineFull) {
+                        previousMatrix = matrix;
+                        linesToDoClearEffect.push_back(y);
+                        for (int y2 = y; y2 > 0; y2--) {
+                            for (int x = 0; x < COLUMNS; x++) {
+                                matrix[x][y2].state = matrix[x][y2 - 1].state;
+                                matrix[x][y2].color = matrix[x][y2 - 1].color;
+                            }
+                        }
+                        lines++;
+                    }
+                }
+
+                // Handle level
+                static int previousLinesLevelUp = 0;
+                if (lines - previousLinesLevelUp > NB_LINES_DIFFICULTY_CHANGE && difficultyLevel <= MAX_LEVEL) {
+                    difficultyLevel++;
+                    previousLinesLevelUp = lines;
+                }
+
+                // Handle loose
                 for (int x = 0; x < COLUMNS; x++) {
-                    if (!matrix[x][y].state) {
-                        lineFull = false;
+                    if (matrix[x][0].state) {
+                        reset();
                         break;
                     }
                 }
-                if (lineFull) {
-                    linesToDoClearEffect.push_back(y);
-                    for (int x = 0; x < COLUMNS; x++) {
-                        matrix[x][y].state = false;
-                    }
-                    for (int y2 = y; y2 > 0; y2--) {
-                        for (int x = 0; x < COLUMNS; x++) {
-                            matrix[x][y2].state = matrix[x][y2 - 1].state;
-                            matrix[x][y2].color = matrix[x][y2 - 1].color;
-                        }
-                    }
-                    lines++;
-                }
             }
-
-            // Handle level
-            static int previousLinesLevelUp = 0;
-            if (lines - previousLinesLevelUp > NB_LINES_DIFFICULTY_CHANGE && difficultyLevel <= MAX_LEVEL) {
-                difficultyLevel++;
-                previousLinesLevelUp = lines;
-            }
-
-            // Handle loose
-            for (int x = 0; x < COLUMNS; x++) {
-                if (matrix[x][0].state) {
-                    reset();
-                    break;
-                }
-            }
+            return;
         }
-        return;
     }
 }
 
@@ -196,15 +196,32 @@ void Tetris::refreshScreen(std::chrono::steady_clock::time_point &animationPrevi
     window.clear();
 
     // Background display
-    for (auto x = 0; x < COLUMNS; x++) {
-        for (auto y = 0; y < ROWS; y++) {
-            if (matrix[x][y].state) {
-                cell.setFillColor(matrix[x][y].color);
-            } else {
-                cell.setFillColor(BACKGROUND_COLOR);
+    if (linesToDoClearEffect.empty()) {
+        for (auto x = 0; x < COLUMNS; x++) {
+            for (auto y = 0; y < ROWS; y++) {
+                if (matrix[x][y].state) {
+                    cell.setFillColor(matrix[x][y].color);
+                } else {
+                    cell.setFillColor(BACKGROUND_COLOR);
+                }
+                cell.setPosition(CELL_SIZE * x + 1, CELL_SIZE * y + 1);
+                window.draw(cell);
             }
-            cell.setPosition(CELL_SIZE * x + 1, CELL_SIZE * y + 1);
-            window.draw(cell);
+        }
+    } else {
+        for (auto x = 0; x < COLUMNS; x++) {
+            for (auto y = 0; y < ROWS; y++) {
+                if (previousMatrix[x][y].state &&
+                    std::find(linesToDoClearEffect.begin(), linesToDoClearEffect.end(), y) ==
+                    linesToDoClearEffect.end()) {
+                    cell.setFillColor(previousMatrix[x][y].color);
+                } else {
+                    cell.setFillColor(BACKGROUND_COLOR);
+                }
+                cell.setPosition(CELL_SIZE * x + 1, CELL_SIZE * y + 1);
+                window.draw(cell);
+
+            }
         }
     }
 
