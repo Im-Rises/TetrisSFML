@@ -14,33 +14,27 @@ The project is compiled using CMake and VisualStudio compiler version.
 
 ## Features
 
-PlaceHolder
-<!--
-- Audio
-- Window resizing without image deformation
-- Window full screen
-- All main 5 types of cartridge are implemented (a big variety of games can be played)
-- cross-platform (WWindows, Linux, MacOs)
--->
+- Difficulty increasing depending on your score
+- Clearing row animation
+- Tetromino preview display
+- Soft and Hard drop
 
 ## Images
 
-PlaceHolder
-
-## Video
-
-PlaceHolder
+| Screenshot 1                                                                                                      | Screenshot 2                                                                                                      |
+|-------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| ![screen1](https://user-images.githubusercontent.com/59691442/190564537-cb0d0ee4-4135-4062-8834-8774519d4253.png) | ![screen2](https://user-images.githubusercontent.com/59691442/190564542-cd332ed3-c960-4a27-a2d0-3cb06307a4e8.png) |
 
 ## Quickstart
 
-To download the emulator, you can click one of the icons below depending on your operating system, or you can click the
+To download the game, you can click one of the icons below depending on your operating system, or you can click the
 release section of the GitHub page.
 
 Depending on you `operating system` you will need to install some libs, they are installed differently depending on your
 system, please follow one of the section below `Windows` or `Linux` or `MacOs`.
 
 > **Note**
-> Be carefull you have the Text Font `Arial` in the folder `font` next to the executable. Without it the game will
+> Be carefully you have the Text Font `Arial` in the folder `font` next to the executable. Without it the game will
 > crash.
 
 ### Windows
@@ -48,9 +42,9 @@ system, please follow one of the section below `Windows` or `Linux` or `MacOs`.
 <a href="https://github.com/Im-Rises/TetrisSFML/releases/latest"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="cmakeLogo" style="height:40px;"/></a>
 
 For Windows users you don't need to install the libs, you just need to be carefully that you have the
-`*.dll` next to the `space_invaders_arcade_emulator.exe` or the emulator won't start.
+`*.dll` next to the `TetrisSFML.exe` or the game won't start.
 
-Once everything is set up by you can start the emulator by double-clicking the executable of typing the following
+Once everything is set up by you can start the game by double-clicking the executable of typing the following
 command next to it:
 
 ```bash
@@ -67,7 +61,7 @@ For Linux users, you need to install the SFML lib, to do so type one of the foll
 sudo apt-get install libsfml
 ```
 
-or if you're a developer and want to compile the Emulator, please install this version of SFML:
+or if you're a developer and want to compile the game, please install this version of SFML:
 
 ```bash
 sudo apt-get install libsfml-dev
@@ -100,7 +94,7 @@ Then you can start by double-clicking the executable of typing the following com
 
 ## Game controls
 
-To play the game, you needf to use your keyboard with the following controls:
+To play the game, you need to use your keyboard with the following controls:
 
 | Description              | Keyboard |
 |--------------------------|----------|
@@ -132,6 +126,13 @@ TetrisSFML
 ├── font
 |   ├── arrial.ttf
 ├── TetrisSFML
+|  ├── bin
+│  │   |── *
+|  ├── include
+│  │   |── GLFW
+│  │   │   |── *
+|  ├── lib
+│  │   |── *
 |  ├── CMakeLists.txt
 |  ├── global.h
 |  ├── main.cpp
@@ -149,7 +150,7 @@ TetrisSFML
 
 ## Compilation
 
-To compile the emulator, the first thing you need to do is installing a C++ compiler:
+To compile the game, the first thing you need to do is installing a C++ compiler:
 
 - Visual Studio (MSVC)
 - Mingw
@@ -222,19 +223,6 @@ You are now able to compile the project. Go to the project root and type the fol
 cmake .
 ```
 
-## Run tests
-
-Placeholder
-<!--
-The CPU good behaviour has been tested with the `nestests.nes` test rom that you can find in the test_roms folder.
-
-A CMake test is set up to directly test the program. You can find it in the `test`folder and start it by typing the command below at the project root folder.
-
-```bash
-ctest
-```
--->
-
 ## Github-Actions
 
 [![flawfinder](https://github.com/Im-Rises/TetrisSFML/actions/workflows/flawfinder.yml/badge.svg?branch=main)](https://github.com/Im-Rises/TetrisSFML/actions/workflows/flawfinder.yml)
@@ -254,11 +242,11 @@ The project is set with a set of different scripts:
 
 ## Documentations
 
-Tetris Wiki:  
-<https://tetris.fandom.com/wiki/SRS>
-
 Main documentation:  
 <https://www.youtube.com/watch?v=vkS1fY_UTyg&t=1s>
+
+Tetris Wiki:  
+<https://tetris.fandom.com/wiki/SRS>
 
 SFML:  
 <https://github.com/SFML/SFML>

@@ -23,21 +23,24 @@ Tetris::Tetris() : window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_SIZE * 2,
     }
 
     int textY = CELL_SIZE * ROWS / 2;
-
-//    textBackground.setFillColor(sf::Color(0, 0, 0));
-//////    textBackground.setOutlineThickness(-1);
-//    textBackground.setSize(sf::Vector2f(CELL_SIZE * 5, CELL_SIZE * 2));
-//    textBackground.setPosition(x, textY);
+    int fontSize = std::floor(CELL_SIZE * 1.5);
 
     linesText.setFont(font);
-    linesText.setCharacterSize(CELL_SIZE);
+    linesText.setCharacterSize(fontSize);
     linesText.setFillColor(sf::Color::White);
     linesText.setPosition(x, textY);
 
     levelText.setFont(font);
-    levelText.setCharacterSize(CELL_SIZE);
+    levelText.setCharacterSize(fontSize);
     levelText.setFillColor(sf::Color::White);
-    levelText.setPosition(x, textY + CELL_SIZE);
+    levelText.setPosition(x, textY + CELL_SIZE * 2);
+
+    bestScoreLinesText.setFont(font);
+    bestScoreLinesText.setCharacterSize(fontSize);
+    bestScoreLinesText.setFillColor(sf::Color::White);
+    bestScoreLinesText.setPosition(x, textY + CELL_SIZE * 4);
+
+    squareLineClearEffectSize = cell.getSize();
 
     reset();
 }
@@ -47,19 +50,20 @@ void Tetris::reset() {
     fallingTetromino = Tetromino::getRandomTetromino();
     nextTetromino = Tetromino::getRandomTetromino();
     difficultyLevel = INIT_LEVEL;
-    lines = 0;
+    linesCounter = 0;
 }
 
 void Tetris::start() {
     auto previousTime = std::chrono::steady_clock::now();
     auto previousFpsTime = std::chrono::steady_clock::now();
+    auto animationPreviousTime = std::chrono::steady_clock::now();
     while (window.isOpen()) {
 
         handleEvents();//Update inputs
 
         updateGame(previousTime);//Update falling tetromino
 
-        refreshScreen();//Update screen
+        refreshScreen(animationPreviousTime);//Update screen
 
         handleFps(previousFpsTime);//Handle fps display and calculation
     }
@@ -133,97 +137,119 @@ void Tetris::handleEvents() {
 }
 
 void Tetris::updateGame(std::chrono::steady_clock::time_point &previousTime) {
-    auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - previousTime).count();
-    if (deltaTime > INIT_TIME_FALL / difficultyLevel / softDropValue) {
-        previousTime = std::chrono::steady_clock::now();
-        if (!fallingTetromino.moveDown(matrix)) {
-            // Save position of tetromino
-            for (auto &tile: fallingTetromino.getTilesPosition()) {
-                if (tile.y >= 0) {
-                    matrix[tile.x][tile.y].state = true;
-                    matrix[tile.x][tile.y].color = fallingTetromino.getColor();
+    if (linesToDoClearEffect.empty()) {
+        auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - previousTime).count();
+        if (deltaTime > INIT_TIME_FALL / difficultyLevel / softDropValue) {
+            previousTime = std::chrono::steady_clock::now();
+            if (!fallingTetromino.moveDown(matrix)) {
+                // Save position of tetromino
+                for (auto &tile: fallingTetromino.getTilesPosition()) {
+                    if (tile.y >= 0) {
+                        matrix[tile.x][tile.y].state = true;
+                        matrix[tile.x][tile.y].color = fallingTetromino.getColor();
+                    }
                 }
-            }
 
-            // Change tetromino
-            fallingTetromino = nextTetromino;
-            nextTetromino = Tetromino::getRandomTetromino();
+                // Change tetromino
+                fallingTetromino = nextTetromino;
+                nextTetromino = Tetromino::getRandomTetromino();
 
-            // Line clearing
-            for (int y = 0; y < ROWS; y++) {
-                bool lineFull = true;
+                // Line clearing
+                for (int y = 0; y < ROWS; y++) {
+                    bool lineFull = true;
+                    for (int x = 0; x < COLUMNS; x++) {
+                        if (!matrix[x][y].state) {
+                            lineFull = false;
+                            break;
+                        }
+                    }
+                    if (lineFull) {
+                        previousMatrix = matrix;
+                        linesToDoClearEffect.push_back(y);
+                        for (int y2 = y; y2 > 0; y2--) {
+                            for (int x = 0; x < COLUMNS; x++) {
+                                matrix[x][y2].state = matrix[x][y2 - 1].state;
+                                matrix[x][y2].color = matrix[x][y2 - 1].color;
+                            }
+                        }
+                        linesCounter++;
+                    }
+                }
+
+                // Handle level
+                static int previousLinesLevelUp = 0;
+                if (linesCounter - previousLinesLevelUp > NB_LINES_DIFFICULTY_CHANGE && difficultyLevel <= MAX_LEVEL) {
+                    difficultyLevel++;
+                    previousLinesLevelUp = linesCounter;
+                }
+
+                // Handle loose
                 for (int x = 0; x < COLUMNS; x++) {
-                    if (!matrix[x][y].state) {
-                        lineFull = false;
+                    if (matrix[x][0].state) {
+                        maxScore < linesCounter ? maxScore = linesCounter : maxScore;
+                        reset();
                         break;
                     }
                 }
-                if (lineFull) {
-                    for (int x = 0; x < COLUMNS; x++) {
-                        matrix[x][y].state = false;
-                    }
-                    for (int y2 = y; y2 > 0; y2--) {
-                        for (int x = 0; x < COLUMNS; x++) {
-                            matrix[x][y2].state = matrix[x][y2 - 1].state;
-                            matrix[x][y2].color = matrix[x][y2 - 1].color;
-                        }
-                    }
-                    lines++;
-                }
             }
-
-            // Handle level
-            static int previousLinesLevelUp = 0;
-            if (lines - previousLinesLevelUp > NB_LINES_DIFFICULTY_CHANGE && difficultyLevel <= MAX_LEVEL) {
-                difficultyLevel++;
-                previousLinesLevelUp = lines;
-            }
-
-            // Handle loose
-            for (int x = 0; x < COLUMNS; x++) {
-                if (matrix[x][0].state) {
-                    reset();
-                    break;
-                }
-            }
+            return;
         }
-        return;
     }
 }
 
-void Tetris::refreshScreen() {
+void Tetris::refreshScreen(std::chrono::steady_clock::time_point &animationPreviousTime) {
+    window.clear();
+
     // Background display
-    for (auto x = 0; x < COLUMNS; x++) {
-        for (auto y = 0; y < ROWS; y++) {
-            if (matrix[x][y].state) {
-                cell.setFillColor(matrix[x][y].color);
-            } else {
-                cell.setFillColor(BACKGROUND_COLOR);
+    if (linesToDoClearEffect.empty()) {
+        for (auto x = 0; x < COLUMNS; x++) {
+            for (auto y = 0; y < ROWS; y++) {
+                if (matrix[x][y].state) {
+                    cell.setFillColor(matrix[x][y].color);
+                } else {
+                    cell.setFillColor(BACKGROUND_COLOR);
+                }
+                cell.setPosition(CELL_SIZE * x + 1, CELL_SIZE * y + 1);
+                window.draw(cell);
             }
-            cell.setPosition(CELL_SIZE * x + 1, CELL_SIZE * y + 1);
-            window.draw(cell);
+        }
+    } else {
+        for (auto x = 0; x < COLUMNS; x++) {
+            for (auto y = 0; y < ROWS; y++) {
+                if (previousMatrix[x][y].state &&
+                    std::find(linesToDoClearEffect.begin(), linesToDoClearEffect.end(), y) ==
+                    linesToDoClearEffect.end()) {
+                    cell.setFillColor(previousMatrix[x][y].color);
+                } else {
+                    cell.setFillColor(BACKGROUND_COLOR);
+                }
+                cell.setPosition(CELL_SIZE * x + 1, CELL_SIZE * y + 1);
+                window.draw(cell);
+
+            }
         }
     }
 
     // Next tetromino preview display
     window.draw(previewRectangle);
-    for (auto &tile: nextTetromino.getTiles()) {
+    for (auto &tile: nextTetromino.getTilesXReversed()) {
         cell.setFillColor(nextTetromino.getColor());
         std::string name = nextTetromino.getName();
         float x = (3.0f / 2) * CELL_SIZE * COLUMNS - tile.x * CELL_SIZE;
-        float y = (2.0f / 5) * CELL_SIZE * COLUMNS - tile.y * CELL_SIZE;
+        float y = (2.0f / 5) * CELL_SIZE * COLUMNS + tile.y * CELL_SIZE;
         if (name == "O") {
-            cell.setPosition(x, y);
+            cell.setPosition(x - CELL_SIZE, y);
         } else if (name == "I") {
-            cell.setPosition(x, y - CELL_SIZE / 2);
+            cell.setPosition(x - CELL_SIZE, y - CELL_SIZE / 2);
+        } else if (name == "S" || name == "Z" || name == "J" || name == "L") {
+            cell.setPosition(x - CELL_SIZE / 2, y - CELL_SIZE);
         } else {
             cell.setPosition(x - CELL_SIZE / 2, y);
         }
 
         window.draw(cell);
     }
-
 
     // Falling tetromino display
     cell.setFillColor(fallingTetromino.getColor());
@@ -244,19 +270,54 @@ void Tetris::refreshScreen() {
         window.draw(cell);
     }
 
-//    // Text background display
-//    window.draw(textBackground);
-
     // Display score
-    linesText.setString("Lines: " + std::to_string(lines));
+    linesText.setString("Lines: " + std::to_string(linesCounter));
     window.draw(linesText);
 
     // Display level
     levelText.setString("Level: " + std::to_string(difficultyLevel));
     window.draw(levelText);
 
+    // Diplay Max score
+    bestScoreLinesText.setString("Max: " + std::to_string(maxScore));
+    window.draw(bestScoreLinesText);
+
+    // Display linesCounter clear effect
+    if (!linesToDoClearEffect.empty()) {
+        auto delatime = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - animationPreviousTime).count();
+
+        // Decrease the timer to decrease rectange size
+        if (delatime > CLEAR_LINES_EFFECT_TIME) {
+            animationPreviousTime = std::chrono::steady_clock::now();
+            linesClearedEffectTimer++;
+            squareLineClearEffectSize -= sf::Vector2f(cell.getSize().x / NB_ANIM,
+                                                      cell.getSize().y / NB_ANIM);
+        }
+
+        // Draw white rectangles
+        for (auto &line: linesToDoClearEffect) {
+            for (int x = 0; x < COLUMNS; x++) {
+                sf::RectangleShape cellClearEffect(squareLineClearEffectSize);
+                cellClearEffect.setFillColor(sf::Color::White);
+                cellClearEffect.setPosition(0.5f + CELL_SIZE * x + CELL_SIZE / 2 - squareLineClearEffectSize.x / 2,
+                                            0.5f + CELL_SIZE * line + CELL_SIZE / 2 - squareLineClearEffectSize.y / 2);
+                window.draw(cellClearEffect);
+            }
+        }
+
+        // Once the animation is finished, we remove the line from the list to do the animation
+        if (linesClearedEffectTimer >= NB_ANIM) {
+            linesToDoClearEffect.clear();
+            squareLineClearEffectSize = cell.getSize();
+            linesClearedEffectTimer = 0;
+        }
+    }
+
     // Refresh screen
     window.display();
+
+    //Increment FPS
     fps++;
 }
 
