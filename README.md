@@ -12,6 +12,13 @@ Tetris game written in C++ using SFML 2.5.1 lib available for windows, linux and
 
 The project is compiled using CMake and VisualStudio compiler version.
 
+## Features
+
+- Difficulty increasing depending on your score
+- Clearing row animation
+- Tetromino preview display
+- Soft and Hard drop
+
 ## Images
 
 | Screenshot 1                                                                                                      | Screenshot 2                                                                                                      |
