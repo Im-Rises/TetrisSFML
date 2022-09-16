@@ -12,24 +12,11 @@ Tetris game written in C++ using SFML 2.5.1 lib available for windows, linux and
 
 The project is compiled using CMake and VisualStudio compiler version.
 
-## Features
-
-PlaceHolder
-<!--
-- Audio
-- Window resizing without image deformation
-- Window full screen
-- All main 5 types of cartridge are implemented (a big variety of games can be played)
-- cross-platform (WWindows, Linux, MacOs)
--->
-
 ## Images
 
-PlaceHolder
-
-## Video
-
-PlaceHolder
+| Screenshot 1                                                                                                      | Screenshot 2                                                                                                      |
+|-------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| ![screen1](https://user-images.githubusercontent.com/59691442/190564537-cb0d0ee4-4135-4062-8834-8774519d4253.png) | ![screen2](https://user-images.githubusercontent.com/59691442/190564542-cd332ed3-c960-4a27-a2d0-3cb06307a4e8.png) |
 
 ## Quickstart
 
@@ -40,7 +27,7 @@ Depending on you `operating system` you will need to install some libs, they are
 system, please follow one of the section below `Windows` or `Linux` or `MacOs`.
 
 > **Note**
-> Be carefull you have the Text Font `Arial` in the folder `font` next to the executable. Without it the game will
+> Be carefully you have the Text Font `Arial` in the folder `font` next to the executable. Without it the game will
 > crash.
 
 ### Windows
@@ -100,7 +87,7 @@ Then you can start by double-clicking the executable of typing the following com
 
 ## Game controls
 
-To play the game, you needf to use your keyboard with the following controls:
+To play the game, you need to use your keyboard with the following controls:
 
 | Description              | Keyboard |
 |--------------------------|----------|
