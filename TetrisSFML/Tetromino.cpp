@@ -20,7 +20,7 @@ Tetromino Tetromino::getRandomTetromino() {
     std::advance(it, dist6(rng));
 
     // Call Tetromino constructor with random key from tetrominosMap
-//    return Tetromino('I');
+//    return Tetromino('Z');
     return {it->first};
 }
 
@@ -37,10 +37,6 @@ bool Tetromino::moveDown(const std::vector<std::vector<TetrisTile>> &matrix) {
     }
     cordonateY += 1;
     return true;
-}
-
-bool Tetromino::softMoveDown(const std::vector<std::vector<TetrisTile>> &matrix) {
-    return false;
 }
 
 bool Tetromino::hardMoveDown(const std::vector<std::vector<TetrisTile>> &matrix) {

@@ -10,44 +10,43 @@
 // The tiles are defined by their position relative to the center of the tetromino
 const std::map<char, TetrominoData> tetrominosMap = {
         {'I', {
-                      {{-1, 0}, {0, 0}, {1,  0}, {2,  0}},
-//                      {{0,  -1}, {0, 0}, {0,  1}, {0,  2}},
+                      {{-1, 0}, {0, 0}, {1,  0},  {2,  0}},
                       sf::Color::Cyan,
                       "I",
                       false
               }},
         {'J', {
-                      {{-1, 0}, {0, 0}, {1,  0}, {1,  1}},
+                      {{-1, 0}, {0, 0}, {1,  0},  {-1, -1}},
                       sf::Color::Blue,
                       "J",
                       true
               }},
         {'L', {
-                      {{-1, 0}, {0, 0}, {1,  0}, {-1, 1}},
+                      {{-1, 0}, {0, 0}, {1,  0},  {1,  -1}},
                       sf::Color(255, 165, 0),
                       "L",
                       true
               }},
         {'O', {
-                      {{0,  0}, {1, 0}, {0,  1}, {1,  1}},
+                      {{0,  0}, {1, 0}, {0,  -1}, {1,  -1}},
                       sf::Color::Yellow,
                       "O",
                       true
               }},
         {'S', {
-                      {{0,  0}, {1, 0}, {-1, 1}, {0,  1}},
+                      {{0,  0}, {1, 0}, {-1, 1},  {0,  1}},
                       sf::Color::Green,
                       "S",
                       false
               }},
         {'T', {
-                      {{-1, 0}, {0, 0}, {1,  0}, {0,  1}},
+                      {{-1, 0}, {0, 0}, {1,  0},  {0,  -1}},
                       sf::Color(157, 50, 168),
                       "T",
                       true
               }},
         {'Z', {
-                      {{-1, 0}, {0, 0}, {0,  1}, {1,  1}},
+                      {{-1, 0}, {0, 0}, {0,  1},  {1,  1}},
                       sf::Color::Red,
                       "Z",
                       false
@@ -73,8 +72,6 @@ public:
 
 public:
     bool moveDown(const std::vector<std::vector<TetrisTile>> &matrix);
-
-    bool softMoveDown(const std::vector<std::vector<TetrisTile>> &matrix);
 
     bool hardMoveDown(const std::vector<std::vector<TetrisTile>> &matrix);
 
