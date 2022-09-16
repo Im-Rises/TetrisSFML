@@ -5,7 +5,7 @@
 
 const sf::Color BACKGROUND_COLOR(0, 50, 120);
 
-const int INIT_LEVEL = 1; // Initial difficulty level
+const int INIT_LEVEL = 5; // Initial difficulty level
 const int MAX_LEVEL = 10; // Max difficulty level is 10
 
 const int NB_LINES_DIFFICULTY_CHANGE = 10; // Number of lines cleared to increase the difficulty level by 1

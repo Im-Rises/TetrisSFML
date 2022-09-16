@@ -26,12 +26,17 @@ private:
     Tetromino nextTetromino = Tetromino::getRandomTetromino();
 
     std::vector<std::vector<TetrisTile>> matrix;
+    std::vector<std::vector<TetrisTile>> previousMatrix;
 
     sf::Font font;
     sf::Text linesText;
     sf::Text levelText;
 
-    std::vector<int> linesToDoClearEffect;
+    const int TIME_EFFECT_FRAME = 3;
+    const int NB_ANIM = 30; // Number of different animation in the clear effect
+    std::vector<int> linesToDoClearEffect; // List of lines to do the clear animation
+    int linesClearedEffectTimer = 0; // 30 levels of diminution of the square size
+    sf::Vector2f squareLineClearEffectSize; // Size of the square for the clear effect
 
 public:
     Tetris();
