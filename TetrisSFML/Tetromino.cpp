@@ -3,6 +3,52 @@
 #include <random>
 #include <iostream>
 
+const std::map<char, TetrominoData> Tetromino::tetrominosMap =
+        {
+                {'I', {
+                              {{-1, 0}, {0, 0}, {1,  0},  {2,  0}},
+                              sf::Color::Cyan,
+                              "I",
+                              false
+                      }},
+                {'J', {
+                              {{-1, 0}, {0, 0}, {1,  0},  {1,  1}},
+                              sf::Color::Blue,
+                              "J",
+                              true
+                      }},
+                {'L', {
+                              {{-1, 0}, {0, 0}, {1,  0},  {-1, 1}},
+                              sf::Color(255, 165, 0),
+                              "L",
+                              true
+                      }},
+                {'O', {
+                              {{0,  0}, {1, 0}, {0,  -1}, {1,  -1}},
+                              sf::Color::Yellow,
+                              "O",
+                              true
+                      }},
+                {'S', {
+                              {{0,  0}, {1, 0}, {-1, 1},  {0,  1}},
+                              sf::Color::Green,
+                              "S",
+                              false
+                      }},
+                {'T', {
+                              {{-1, 0}, {0, 0}, {1,  0},  {0,  -1}},
+                              sf::Color(157, 50, 168),
+                              "T",
+                              true
+                      }},
+                {'Z', {
+                              {{-1, 0}, {0, 0}, {0,  1},  {1,  1}},
+                              sf::Color::Red,
+                              "Z",
+                              false
+                      }}
+        };
+
 Tetromino::Tetromino(const char &name) {
     data = tetrominosMap.at(name);
     cordonateX = (COLUMNS / 2) - 1;
@@ -23,7 +69,7 @@ Tetromino Tetromino::getRandomTetromino() {
     std::advance(it, dist6(rng));
 
     // Call Tetromino constructor with random key from tetrominosMap
-//    return Tetromino('O');
+//    return Tetromino('J');
     return {it->first};
 }
 
@@ -32,8 +78,7 @@ bool Tetromino::moveDown(const std::vector<std::vector<TetrisTile>> &matrix) {
         const int x = cordonateX + tile.x;
         const int y = cordonateY + tile.y;
         if (y >= 0) {
-            if (ROWS == (y + 1) ||
-                matrix[x][y + 1].state) {
+            if (ROWS == (y + 1) || matrix[x][y + 1].state) {
                 return false;
             }
         }
@@ -52,7 +97,7 @@ void Tetromino::moveLeft(const std::vector<std::vector<TetrisTile>> &matrix) {
     for (auto &tile: data.tiles) {
         const int x = tile.x + cordonateX;
         const int y = tile.y + cordonateY;
-        if (y >= 0 && (x == 0 || matrix[x - 1][y].state)) {
+        if (x == 0 || (y >= 0 && matrix[x - 1][y].state)) {
             return;
         }
     }
@@ -63,7 +108,7 @@ void Tetromino::moveRight(const std::vector<std::vector<TetrisTile>> &matrix) {
     for (auto &tile: data.tiles) {
         const int x = tile.x + cordonateX;
         const int y = tile.y + cordonateY;
-        if (y >= 0 && (x == COLUMNS - 1 || matrix[x + 1][y].state)) {
+        if (x == COLUMNS - 1 || (y >= 0 && matrix[x + 1][y].state)) {
             return;
         }
     }
