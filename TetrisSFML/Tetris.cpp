@@ -277,10 +277,11 @@ void Tetris::refreshScreen(std::chrono::steady_clock::time_point &animationPrevi
                 std::chrono::steady_clock::now() - animationPreviousTime).count();
 
         // Decrease the timer to decrease rectange size
-        if (delatime > 10) {
+        if (delatime > TIME_EFFECT_FRAME) {
             animationPreviousTime = std::chrono::steady_clock::now();
-            linesClearedEffectTimer--;
-            squareLineClearEffectSize -= sf::Vector2f(0.1f, 0.1f);
+            linesClearedEffectTimer++;
+            squareLineClearEffectSize -= sf::Vector2f(cell.getSize().x / NB_ANIM,
+                                                      cell.getSize().y / NB_ANIM);
         }
 
         // Draw white rectangles
@@ -288,17 +289,17 @@ void Tetris::refreshScreen(std::chrono::steady_clock::time_point &animationPrevi
             for (int x = 0; x < COLUMNS; x++) {
                 sf::RectangleShape cellClearEffect(squareLineClearEffectSize);
                 cellClearEffect.setFillColor(sf::Color::White);
-                cellClearEffect.setPosition(CELL_SIZE * x + 1 + squareLineClearEffectSize.x / 2,
-                                            CELL_SIZE * line + 1 + squareLineClearEffectSize.y / 2);
+                cellClearEffect.setPosition(0.5 + CELL_SIZE * x + CELL_SIZE / 2 - squareLineClearEffectSize.x / 2,
+                                            0.5 + CELL_SIZE * line + CELL_SIZE / 2 - squareLineClearEffectSize.y / 2);
                 window.draw(cellClearEffect);
             }
         }
 
         // Once the animation is finished, we remove the line from the list to do the animation
-        if (linesClearedEffectTimer == 0) {
+        if (linesClearedEffectTimer >= NB_ANIM) {
             linesToDoClearEffect.clear();
             squareLineClearEffectSize = cell.getSize();
-            linesClearedEffectTimer = 30;
+            linesClearedEffectTimer = 0;
         }
     }
 
