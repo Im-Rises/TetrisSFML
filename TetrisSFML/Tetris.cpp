@@ -275,12 +275,15 @@ void Tetris::refreshScreen(std::chrono::steady_clock::time_point &animationPrevi
     if (!linesToDoClearEffect.empty()) {
         auto delatime = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - animationPreviousTime).count();
+
+        // Decrease the timer to decrease rectange size
         if (delatime > 10) {
             animationPreviousTime = std::chrono::steady_clock::now();
             linesClearedEffectTimer--;
             squareLineClearEffectSize -= sf::Vector2f(0.1f, 0.1f);
         }
 
+        // Draw white rectangles
         for (auto &line: linesToDoClearEffect) {
             for (int x = 0; x < COLUMNS; x++) {
                 sf::RectangleShape cellClearEffect(squareLineClearEffectSize);
