@@ -187,8 +187,8 @@ void Tetris::updateGame(std::chrono::steady_clock::time_point &previousTime) {
                 // Handle loose
                 for (int x = 0; x < COLUMNS; x++) {
                     if (matrix[x][0].state) {
-                        reset();
                         maxScore < linesCounter ? maxScore = linesCounter : maxScore;
+                        reset();
                         break;
                     }
                 }
