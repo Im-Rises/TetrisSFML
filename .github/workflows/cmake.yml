@@ -19,7 +19,6 @@ jobs:
 
       - name: Install libs
         run: |
-          sudo apt install xorg-dev  
           sudo apt-get install libsfml-dev
 
       - name: Configure CMake
